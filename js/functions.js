@@ -22,6 +22,40 @@
    "use strict";
    
    /**
+    * Check if there are any Categories selected yet
+    */
+   function hasPrimaryCatElements( checkbox ) {
+       return 1 === $( checkbox ).closest( "li" ).children( ".jkl-category" ).length;
+   }
+   
+   /**
+    * Creates the elements necessary to show something is a Primary Category, or to make it one
+    */
+   function addPrimaryCatElements( checkbox ) {
+       var label, html;
+       
+       label = $( checkbox ).closest( "label" );
+       
+       html = 'In functions.js';
+       
+       label.after( html );
+   }
+   
+   /**
+    * Gets the Primary Category name
+    */
+   function getPrimaryCategory() {
+       return $( "#jkl-primary-category" ).val();
+   }
+   
+   /**
+    * Sets the Primary Category
+    */
+   function setPrimaryCategory( termId ) {
+       $( "#jkl-primary-category" ).val( termId ).trigger( "change" );
+   }
+   
+   /**
     * Sees which Categories are checked and adds a 'jkl-category-checked/unchecked' class to each
     */
    function getCategories( ) {
@@ -46,18 +80,18 @@
             var listItem = term.closest( "li" );
             
             // Create the interface items if they don't yet exist
-//            if ( ! hasPrimaryCatElements( term ) ) {
-//                addPrimaryCatElements( term );
-//            }
+            if ( ! hasPrimaryCatElements( term ) ) {
+                addPrimaryCatElements( term );
+            }
             
-            //if ( term.val() === getPrimaryCategory() ) {
-//                listItem.addClass( "jkl-primary-category" );
-//                
-//                var label = term.closest( "label" );
-//                label.append( /* Create the button here */ );
-            //} else {
+            if ( term.val() === getPrimaryCategory() ) {
+                listItem.addClass( "jkl-primary-category" );
+                
+                var label = term.closest( "label" );
+                label.append( /* Create the button here */ );
+            } else {
                 listItem.addClass( "jkl-category-checked" );
-            //}
+            }
        } );
        
        // Obviously, hide the interface items on unchecked checkboxes

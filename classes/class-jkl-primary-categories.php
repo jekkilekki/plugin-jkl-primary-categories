@@ -41,6 +41,22 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
         private $name;
         
         /**
+         * Array of WordPress admin pointers.
+         * @since   0.0.1
+         * @access  private
+         * @var     array   $pointers   Array of WordPress admin pointers.
+         */
+        private $pointers;
+        
+        /**
+         * JKL_PC_Admin_Pointer Object - a WordPress admin pointer object
+         * @since   0.0.1
+         * @access  private
+         * @var     Object   $admin_pointer  JKL_PC_Admin_Pointer Object
+         */
+        private $admin_pointer;
+        
+        /**
          * CONSTRUCTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          * Initializes the JKL_Primary_Categories Object and sets its properties
          * @since   0.0.1
@@ -52,6 +68,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             // Set the name and version number
             $this->name     = $name;
             $this->version  = $version;
+            
+            
+            //$this->primary_category = new JKL_PC_Term();
             
             // Load the plugin and supplementary files
             $this->load();
@@ -70,11 +89,10 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             
             /* #1) Enqueue JavaScript where required */
             add_action( 'admin_enqueue_scripts', array( $this, 'jkl_pc_scripts' ) );
-            
+
             /* #2) Add extra options to the 'Publish' metabox */
             add_action( 'post_submitbox_misc_actions', array( $this, 'jkl_add_publish_options' ) );
-            add_filter( 'jkl_pc_admin_pointers-post', 'jkl_pc_register_pointer' );
-            
+
             /* #3) Save the Primary Category meta data with the Post Save */
             add_action( 'save_post', array( $this, 'jkl_save_primary_cat' ), 10, 3 );
             
@@ -91,49 +109,14 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             if( $post->post_type != 'page' && $hook != 'edit.php' ) {
             
                 // Enqueue our plugin styles and scripts
-                wp_enqueue_style( 'jkl_pc_style', plugins_url( '/css/style.css', __FILE__ ) );
-                wp_enqueue_script( 'jkl_pc_functions', plugins_url( '/js/functions.js', __FILE__ ), array( 'jquery' ), '20160921', true );
+                wp_enqueue_style( 'jkl_pc_style', plugins_url( '../css/style.css', __FILE__ ) );
+                wp_enqueue_script( 'jkl_pc_functions', plugins_url( '../js/functions.js', __FILE__ ), array( 'jquery' ), '20160921', true );
+            
+                $this->pointers = $this->get_admin_pointers();
+                $this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );
                 
-                // Enqueue pointers style, custom script, and pointer options
-                wp_enqueue_style( 'wp-pointer' );
-                wp_enqueue_script( 'jkl-pc-pointer-script', plugins_url( 'js/jkl-pc-pointer.js', __FILE__ ), array( 'wp-pointer' ), '20160922', true );
-                wp_localize_script( 'jkl-pc-pointer-script', 'jklPcPointer', $valid_pointers );
-                
-                /**
-                 * Create a WordPress Pointer to help users "Set" a Primary Category
-                 * @link https://code.tutsplus.com/articles/integrating-with-wordpress-ui-admin-pointers--wp-26853
-                 */
-                // But don't run on WP < 3.3
-                if ( get_bloginfo( 'version' ) < '3.3' ) return;
-                
-                // Get the screen ID
-                $screen = get_current_screen();
-                $screen_id = $screen->id;
-                
-                // Get pointers for this screen
-                $pointers = apply_filters( 'jkl_pc_admin_pointers-' . $screen_id, array() );
-                
-                // No pointers? Then stop.
-                if ( ! $pointers || ! is_array( $pointers ) ) return;
-                
-                // Get dismissed pointers
-                $dismissed = explode( ',', (string) get_user_meta( get_current_user_id(), 'dismissed_wp_pointers', true ) );
-                $valid_pointers = array();
-                
-                // Check pointers and remove dismissed ones
-                foreach ( $pointers as $pointer_id => $pointer ) {
-                    // Sanity check
-                    if ( in_array( $pointer_id, $dismissed ) || empty( $pointer ) || empty( $pointer_id ) || empty( $pointer[ 'target' ] || empty( $pointer[ 'options' ] ) ) )
-                        continue;
-                    
-                    $pointer[ 'pointer_id' ] = $pointer_id;
-                    
-                    // Add the pointer to $valid_pointers array
-                    $valid_pointers[ 'pointers' ][ ] = $pointer; 
-                }
-                
-                // No valid pointers? Then stop.
-                if ( empty( $valid_pointers ) ) return;
+                //wp_enqueue_script( 'jkl_pc_pointer', plugins_url( '../js/jkl-pc-pointer.js', __FILE__ ), array( 'wp-pointer' ), '20160922', true );
+                //wp_localize_script( 'jkl-pc-pointer-script', 'jklPcPointer', $this->admin_pointer->valid );
                 
             }
             
@@ -149,7 +132,12 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             global $post;
             // Get Primary Category (if set)
             $primary_cat = get_post_meta( $post->ID, 'jkl_primary_category', true );
-            
+            // Or, default to the first Category in use if not set
+            //if ( ! isset( $primary_cat ) || $primary_cat != null ) {
+                $selected_categories = get_the_category( $post->ID );
+                $primary_cat = $selected_categories[0]->name;
+                //$primary_cat = 'Hello World';
+            //}
             // Avoid Pages
             if ( $post->post_type != 'page' ) {
                 
@@ -169,30 +157,37 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             }
         }
         
-        public function jkl_pc_register_pointer( $p ) {
-            $p[ 'jklpcpointer1' ] = array( 
-                'target'    => '#jkl-set-primary-category',
-                'options'   => array(
-                    'content'   => sprintf( '<h3>%s</h3><p>%s</p>',
-                            __( 'Set Primary Category', 'jkl-primary-categories' ),
-                            __( 'To set the Primary Category, ...', 'jkl-primary-categories' )
-                    ),
-                    'position'  => array( 'edge' => 'top', 'align' => 'middle' )
-                )
+        public function get_admin_pointers() {
+            return array( 
+                array(
+                    'id'        => 'jklpcpointer1',
+                    'screen'    => 'post',
+                    'target'    => '#jkl-set-primary-category',
+                    'title'     => __( 'Set Primary Category', 'jkl-primary-categories' ),
+                    'content'   => __( 'To set the Primary Category, ...', 'jkl-primary-categories' ),
+                    'position'  => array(
+                        'edge'  => 'top',   // top, bottom, left, right
+                        'align' => 'middle' // top, bottom, left, right, middle
+                    )
+                ),
             );
-            return $p;
         }
         
         /**
-         * 
-         * @param type $post_id
-         * @param type $post
-         * @param type $update
-         * @return type
+         * Gets the Primary Category
+         * @since   0.0.1
+         * @var     int     $post_id
+         * @link    https://github.com/JacobMC/Primary-Categories/blob/master/classes/class-pc-meta-box.php
          */
         public function jkl_get_primary_cat_id( $post_id ) {
             
-            $primary_category = get_post_meta( $post_id, 'jkl_primary_category', true );
+            $primary_category = '';
+            
+            // Retrieve data from jkl_primary_category custom field
+            get_post_meta( $post_id, 'jkl_primary_category', true );
+            
+            // Get list of categories associated with Post
+            $all_categories = get_the_category();
             
         }
         
@@ -210,7 +205,12 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             
             if ( isset( $_POST[ 'jkl_primary_category' ] ) ) {
                 update_post_meta( $post_id, 'jkl_primary_category', $_POST[ 'jkl_primary_category' ] );
-            }
+            } //else if ( ) {
+                //update_post_meta( $post_id, 'jkl_primary_category', );
+            //}
+            echo '<pre>';
+            var_dump( $_POST );
+            echo '</pre>';
             
         }
         

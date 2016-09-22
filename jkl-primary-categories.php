@@ -51,14 +51,19 @@ if ( ! defined( 'WPINC' ) ) die;
 /*
  * The class that represents and defines the core plugin
  */
-require_once plugin_dir_path( __FILE__ ) . 'class-jkl-primary-categories.php';
+require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-primary-categories.php';
+
+/*
+ * The class that represents and defines our Admin Pointer object
+ */
+require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-pc-admin-pointer.php';
 
 /*
  * The function that creates a new JKL_Primary_Categories object and runs the plugin
  */
-function run_pcat() {
+function run_jkl_pc() {
     // Instantiate the plugin class
-    $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '1.0.0' );
+    $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '0.0.1' );
 }
 
-run_pcat();
+run_jkl_pc();
