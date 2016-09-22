@@ -145,9 +145,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
                 echo '<span class="dashicons dashicons-category"></span>';
                 echo 'Primary Category: ';
                 if ( isset( $primary_cat ) && $primary_cat != null ) {
-                    echo '<span id="jkl-primary-cat"><strong>';
+                    echo '<span id="jkl-primary-cat">';
                     echo ucwords( $primary_cat );
-                    echo '</strong></span>';
+                    echo '</span>';
                     echo '<a href="#categorydiv">Edit</a>';
                 } else {
                     echo '<a id="jkl-set-primary-category" href="#categorydiv">Set</a> <a id="jkl-pc-help" href="#" title="1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category">Help</a>';
@@ -208,9 +208,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             } //else if ( ) {
                 //update_post_meta( $post_id, 'jkl_primary_category', );
             //}
-            echo '<pre>';
-            var_dump( $_POST );
-            echo '</pre>';
+            //echo '<pre>';
+            //var_dump( $_POST );
+            //echo '</pre>';
             
         }
         

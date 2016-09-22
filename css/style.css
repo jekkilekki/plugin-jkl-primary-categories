@@ -4,9 +4,13 @@
 }
 #jkl-primary-cat {
     padding-right: 5px;
-}
-#jkl-primary-category:after {
-    content: 'Primary';
-    float: right;
     font-weight: bold;
+}
+.jkl-category-label {
+    float: right;
+}
+.jkl-make-primary-cat {
+    padding: 0;
+    text-decoration: underline;
+    color: blue;
 }

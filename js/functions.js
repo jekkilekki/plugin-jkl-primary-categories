@@ -37,15 +37,16 @@
        label = $( checkbox ).closest( "label" );
        
        html = 'In functions.js';
-       
+       //if( )
        label.after( html );
    }
    
    /**
-    * Gets the Primary Category name
+    * Gets the Primary Category name from our Publish Metabox (which is set using the get_post_meta() function in PHP)
     */
    function getPrimaryCategory() {
-       return $( "#jkl-primary-category" ).val();
+       // alert( $( "#jkl-primary-cat" ).html() );
+       return $( "#jkl-primary-cat" ).html();
    }
    
    /**
@@ -53,6 +54,7 @@
     */
    function setPrimaryCategory( termId ) {
        $( "#jkl-primary-category" ).val( termId ).trigger( "change" );
+       $( "#jkl-primary-cat" ).html( termId );
    }
    
    /**
@@ -81,16 +83,23 @@
             
             // Create the interface items if they don't yet exist
             if ( ! hasPrimaryCatElements( term ) ) {
-                addPrimaryCatElements( term );
+                // addPrimaryCatElements( term );
             }
             
-            if ( term.val() === getPrimaryCategory() ) {
+            var findPrimaryCat = term.closest( "label" ).html();
+            var htmlArr = findPrimaryCat.split( ' ' );
+            var primaryCatName = htmlArr[ htmlArr.length - 1 ];
+            // alert( "Term value = " + primaryCatName ); // produces a number
+            if ( primaryCatName === getPrimaryCategory() ) { // produces a number - the Category value
                 listItem.addClass( "jkl-primary-category" );
                 
                 var label = term.closest( "label" );
-                label.append( /* Create the button here */ );
+                label.append( "<span class='jkl-category-label'><strong>Primary</strong></span>" );
             } else {
                 listItem.addClass( "jkl-category-checked" );
+                
+                var label = term.closest( "label" );
+                label.append( "<button class='jkl-category-label jkl-make-primary-cat'>Set Primary</button>" );
             }
        } );
        
@@ -99,6 +108,6 @@
        
    }
    
-   getCategories();
+   $( "#categorychecklist input" ).change( getCategories() );
    
 } ( jQuery ) );
