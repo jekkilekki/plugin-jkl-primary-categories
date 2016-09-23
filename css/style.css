@@ -1,3 +1,4 @@
+/* Publish Meta box */
 #jkl-pc-notice .dashicons {
     color: #82878c; 
     padding-right: 5px;
@@ -5,12 +6,34 @@
 #jkl-primary-cat {
     padding-right: 5px;
     font-weight: bold;
+    color: #444;
 }
+
+/* Category Div */
 .jkl-category-label {
     float: right;
 }
+.jkl-primary-category-button {
+    padding: 0;
+    background: transparent;
+    border-color: transparent;
+    font-weight: bold;
+    content: "Primary";
+}
 .jkl-make-primary-cat {
     padding: 0;
+    background: transparent;
+    border-color: transparent;
     text-decoration: underline;
     color: blue;
+    content: "Set Primary";
+}
+.jkl-primary-category-button:disabled {
+    color: #444;
+}
+.jkl-primary-category-button:focus,
+.jkl-primary-category-button:active,
+.jkl-make-primary-cat:focus,
+.jkl-make-primary-cat:active {
+    outline: transparent;
 }

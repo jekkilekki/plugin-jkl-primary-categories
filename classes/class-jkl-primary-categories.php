@@ -132,12 +132,13 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             global $post;
             // Get Primary Category (if set)
             $primary_cat = get_post_meta( $post->ID, 'jkl_primary_category', true );
+            
             // Or, default to the first Category in use if not set
-            //if ( ! isset( $primary_cat ) || $primary_cat != null ) {
+            if ( $primary_cat == '' && ! empty( get_the_category( $post->ID ) ) ) {
                 $selected_categories = get_the_category( $post->ID );
                 $primary_cat = $selected_categories[0]->name;
-                //$primary_cat = 'Hello World';
-            //}
+            } 
+            
             // Avoid Pages
             if ( $post->post_type != 'page' ) {
                 
@@ -146,11 +147,11 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
                 echo 'Primary Category: ';
                 if ( isset( $primary_cat ) && $primary_cat != null ) {
                     echo '<span id="jkl-primary-cat">';
-                    echo ucwords( $primary_cat );
+                    echo $primary_cat;
                     echo '</span>';
-                    echo '<a href="#categorydiv">Edit</a>';
+                    echo '<a id="jkl-edit-primary-category" href="#">Edit</a>';
                 } else {
-                    echo '<a id="jkl-set-primary-category" href="#categorydiv">Set</a> <a id="jkl-pc-help" href="#" title="1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category">Help</a>';
+                    echo '<a id="jkl-set-primary-category" href="#">Set</a> <a id="jkl-pc-help" href="#" title="1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category">Help</a>';
                 }
                 echo '</div>';
                 
