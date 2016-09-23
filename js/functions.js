@@ -77,17 +77,38 @@
    }
    
    /**
-    * Sets the Primary Category
+    * Makes the first Category the Primary Category (by default, or if unchecking the Primary Category)
+    */
+   function setPrimaryCategoryFirst() {
+       var firstCategory = $( "#categorychecklist input[type='checkbox']:checked:first" );
+       setPrimaryCategory( firstCategory.val() );
+       updateCategories();
+   }
+   
+   /**
+    * Sets a new Primary Category
     */
    function setPrimaryCategory( termId ) {
        $( "#jkl-primary-category" ).val( termId ).trigger( "change" );
-       $( "#jkl-primary-cat" ).html( termId );
+   }
+   
+   /**
+    * Highlights the Primary Category whenever some action happens regarding it
+    */
+   function highlightPrimary( term ) {
+        $( term )
+                .animate( { backgroundColor: "#ffffaa" }, 1 )
+                .animate( { backgroundColor: "#ffffff" }, 2000 );
+        $('html, body')
+                .animate( {
+                     scrollTop: $( "#categorydiv" ).offset().top
+                }, 400);
    }
    
    /**
     * Sees which Categories are checked and adds a 'jkl-category-checked/unchecked' class to each
     */
-   function getCategories( ) {
+   function updateCategories( ) {
        
        var checkedTerms = $( "#categorychecklist input[type='checkbox']:checked" );
        var uncheckedTerms = $( "#categorychecklist input[type='checkbox']:not(:checked)" );
@@ -97,6 +118,8 @@
                .removeClass( "jkl-category" )
                .removeClass( "jkl-category-checked" )
                .removeClass( "jkl-category-unchecked" );
+       
+       $( ".jkl-category-label" ).remove();
        
        // Don't show the "Primary Category" options if only one Category is selected
        if ( checkedTerms.length <= 1 ) {
@@ -132,37 +155,37 @@
        
    }
    
-   $( "#categorychecklist input" ).change( getCategories() );
+   
+   
+   
+   updateCategories();
+   
+   /**
+    * Checkbox handler for when a checkbox is clicked
+    */
+   $( "#categorychecklist input:checkbox" ).change( function() { 
+       updateCategories(); 
+   } );
    
    /**
     * Highlight the current Primary Category if the user clicks to "Edit"
     */
    $( "#jkl-edit-primary-category" ).click( function() {
-        $( ".jkl-primary-category" )
-                .animate( { backgroundColor: "#ffffaa" }, 1 )
-                .animate( { backgroundColor: "#ffffff" }, 2000 );
-        $('html, body')
-                .animate( {
-                     scrollTop: $( "#categorydiv" ).offset().top
-                }, 400);
+        highlightPrimary( ".jkl-primary-category" );
     } );
+    
     /**
      * Highlight the first Category li if the user clicks to "Set" or get "Help"
      */
     $( "#jkl-set-primary-category, #jkl-pc-help" ).click( function() {
-        $( "#categorychecklist li:first-child" )
-                .animate( { backgroundColor: "#ffffaa" }, 1 )
-                .animate( { backgroundColor: "#ffffff" }, 2000 );
-        $('html, body')
-                .animate( {
-                     scrollTop: $( "#categorydiv" ).offset().top
-                }, 400);
+        highlightPrimary( "#categorychecklist li:first-child" );
     } );
     
     /**
      * Change "Primary" label when one of the "Set Primary" buttons is clicked
      */
-    $( ".jkl-make-primary-cat, .jkl-primary-category-button" ).click( function( e ) {
+    //$( ".jkl-category-label" ).click( function( e ) {
+    $( document ).on( "click", ".jkl-category-label", function( e ) {
         e.preventDefault();
         
         /* Change all other interface elements in CategoryDiv */
@@ -183,6 +206,7 @@
         $( this ).closest( 'li' )
                 .removeClass( 'jkl-category-checked' )
                 .addClass( 'jkl-primary-category' );
+        highlightPrimary( $( this ).closest( 'li' ) );
         
         /* Change Primary Category name in Publish metabox */
         $( "#jkl-primary-cat" ).html( getCategoryName( $(this), true ) );

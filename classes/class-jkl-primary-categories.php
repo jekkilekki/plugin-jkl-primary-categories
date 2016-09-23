@@ -209,9 +209,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             } //else if ( ) {
                 //update_post_meta( $post_id, 'jkl_primary_category', );
             //}
-            //echo '<pre>';
-            //var_dump( $_POST );
-            //echo '</pre>';
+//            echo '<pre>';
+//            var_dump( $_POST );
+//            echo '</pre>';
             
         }
         
