@@ -185,8 +185,19 @@
     /**
      * Highlight the first Category li if the user clicks to "Set" or get "Help"
      */
-    $( "#jkl-edit-primary-category, #jkl-set-primary-category, #jkl-pc-help" ).click( function() {
+    $( "#jkl-set-primary-category, #jkl-pc-help" ).click( function() {
         highlightPrimary( "#categorychecklist li:first-child" );
+        $('html, body')
+                .animate( {
+                     scrollTop: $( "#categorydiv" ).offset().top
+                }, 400);
+    } );
+    
+    /**
+     * Highlight the current Primary Category li if the user clicks to "Edit" Category
+     */
+    $( "#jkl-edit-primary-category" ).click( function() {
+        highlightPrimary( ".jkl-primary-category" );
         $('html, body')
                 .animate( {
                      scrollTop: $( "#categorydiv" ).offset().top

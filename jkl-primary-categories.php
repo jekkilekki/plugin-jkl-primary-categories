@@ -7,7 +7,7 @@
  * @wordpress-plugin
  * Plugin Name:     JKL Primary Categories
  * Plugin URI:      https://github.com/jekkilekki/plugin-jkl-primary-categories
- * Description:     A simple plugin that allows you to set a Primary Category for a Post or Custom Post Type that has more than one category selected. Similar to Yoast SEO's implementation.
+ * Description:     A simple plugin that allows you to set a Primary Category for a Post or Custom Post Type that has more than one category selected. Performs like Yoast SEO's implementation.
  * Version:         1.0.0
  * Author:          Aaron Snowberger
  * Author URI:      http://www.aaronsnowberger.com
@@ -38,13 +38,6 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
 
-/**
- * Plugin Notes:
- * 1) add_filter()? -> modify Publish metabox to show what the current Primary Category is (not set until Post Save)
- * 2) Add JS (append) -> to selected categories "Primary" to the Primary, "Make primary" to all others
- * 3) Save Post meta -> update_post_meta();
- */
-
 /* Prevent direct access */
 if ( ! defined( 'WPINC' ) ) die;
 
@@ -54,16 +47,55 @@ if ( ! defined( 'WPINC' ) ) die;
 require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-primary-categories.php';
 
 /*
+ * The class that represents and defines our Welcoming Page
+ */
+require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-pc-welcome.php';
+
+/*
  * The class that represents and defines our Admin Pointer object
  */
 require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-pc-admin-pointer.php';
+
+/**
+ * Function to run on plugin activation to create our Welcome Page
+ * 
+ * @link    https://premium.wpmudev.org/blog/plugin-welcome-screen/         Basic function calls & structure
+ * @link    http://www.wpexplorer.com/how-to-wordpress-custom-dashboard/    Basic Welcome Page Styles
+ */
+function jkl_pc_create_welcome_screen() {
+
+   set_transient( '_jkl_pc_welcome_redirect', true, 0 ); // 30 seconds later, it cleans up after itself
+   //$JKL_PC_Welcome = new JKL_PC_Welcome();
+}
+
+/**
+ * 
+ */
+function jkl_pc_compatibility_issue() {
+    ?>
+        <div class="error notice">
+            <p><?php _e( '<strong>Detected Yoast SEO active.</strong> JKL Primary Categories conflicts with Yoast SEO\'s Primary Terms.<br>Please disable ONE of these plugins. You cannot use both for Primary Categories.', 'jkl-primary-categories' ); ?></p>
+        </div>
+    <?php
+}
 
 /*
  * The function that creates a new JKL_Primary_Categories object and runs the plugin
  */
 function run_jkl_pc() {
-    // Instantiate the plugin class
-    $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '0.0.1' );
+    
+    if( ! class_exists( 'WPSEO_Primary_Term' ) ) {
+        
+        // Instantiate the plugin class
+        $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '1.0.0' );
+        register_activation_hook( __FILE__, 'jkl_pc_create_welcome_screen' );
+    
+    } else {
+        
+        add_action( 'admin_notices', 'jkl_pc_compatibility_issue' );
+        //die;
+        
+    }
 }
-
 run_jkl_pc();
+//add_action( 'plugins_loaded', 'run_jkl_pc' );

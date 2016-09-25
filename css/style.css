@@ -43,3 +43,13 @@
 .jkl-make-primary-cat:active {
     outline: transparent;
 }
+
+
+/*
+ * WELCOMING PAGE
+ */
+.tenup-style {
+    background: url( '../images/10up-logo.png' ) center 20px no-repeat #000 !important;
+    height: 50px;
+    padding-top: 120px;
+}
