@@ -8,6 +8,12 @@
     font-weight: bold;
     color: #444;
 }
+/* jQuery will decide which buttons to show at what time */
+#jkl-edit-primary-category,
+#jkl-set-primary-category,
+#jkl-pc-help {
+    display: none;
+}
 
 /* Category Div */
 .jkl-category-label {

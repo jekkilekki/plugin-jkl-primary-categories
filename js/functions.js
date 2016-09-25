@@ -14,44 +14,8 @@
  * 3. Surrounds any "per" units (/month) in the price field with <span> tags for better styling
  */
 
-//jQuery( document ).ready( function( $ ) {
-//    alert( "Hello world!" );
-//});
-
 ( function ( $ ) {
    "use strict";
-   
-   /**
-    * Returns the checkbox handler
-    */
-   function checkboxHandler() {
-       // If the user unchecks the primary category, we have to select any new Primary Category
-       if ( false === $( this ).prop( "checked" ) && getCategoryName( $(this), true ) === getPrimaryCategory() ) {
-           makeFirstPrimary(); // Need to write this function to make the first category Primary
-       }
-       ensurePrimaryCategory(); 
-       updatePrimaryCategory();
-   }
-   
-   /**
-    * Check if there are any Categories selected yet
-    */
-   function hasPrimaryCatElements( checkbox ) {
-       return 1 === $( checkbox ).closest( "li" ).children( ".jkl-category" ).length;
-   }
-   
-   /**
-    * Creates the elements necessary to show something is a Primary Category, or to make it one
-    */
-   function addPrimaryCatElements( checkbox ) {
-       var label, html;
-       
-       label = $( checkbox ).closest( "label" );
-       
-       html = 'In functions.js';
-       //if( )
-       label.after( html );
-   }
    
    /**
     * Highlights the Primary Category whenever some action happens regarding it
@@ -60,10 +24,6 @@
         $( term )
                 .animate( { backgroundColor: "#ffffaa" }, 1 )
                 .animate( { backgroundColor: "#ffffff" }, 2000 );
-        $('html, body')
-                .animate( {
-                     scrollTop: $( "#categorydiv" ).offset().top
-                }, 400);
    }
    
    /**
@@ -71,6 +31,24 @@
     */
    function getPrimaryCategory() {
        return $( "#jkl-primary-cat" ).html();
+   }
+   
+   /**
+    * Function to be sure we always have a Primary Category labeled in the Publish Meta box if there is at least one Category checked
+    */
+   function ensurePrimaryCategory( term ) {
+       
+       var checkedTerms = $( "#categorychecklist input[type='checkbox']:checked" );
+       
+        if( $( "#jkl-primary-cat" ).html() == "" ) {
+            term = $( term );
+            //alert( term.value() );
+            /* Change Primary Category name in Publish metabox */
+             $( "#jkl-primary-cat" ).html( getCategoryName( term, true ) );
+        } else if ( checkedTerms.length < 1 ) {
+            $( "#jkl-primary-cat" ).html( "" );
+        }
+        
    }
    
    /**
@@ -114,6 +92,7 @@
         
         /* Change Primary Category name in Publish metabox */
         $( "#jkl-primary-cat" ).html( getCategoryName( term, true ) );
+        $( "#jkl-primary-cat-hidden" ).val( getCategoryName( term, true ) );
         
    }
    
@@ -135,8 +114,13 @@
        $( ".jkl-category-label" ).remove();
        
        // Don't show the "Primary Category" options if only one Category is selected
-       if ( checkedTerms.length <= 1 ) {
+       if ( checkedTerms.length < 1 ) {
+           $( "#jkl-primary-cat, #jkl-edit-primary-category" ).css( { "display" : "none" } );
+           $( "#jkl-set-primary-category, #jkl-pc-help" ).css( { "display" : "inline" } );
            return;
+       } else {
+           $( "#jkl-primary-cat, #jkl-edit-primary-category" ).css( { "display" : "inline" } );
+           $( "#jkl-set-primary-category, #jkl-pc-help" ).css( { "display" : "none" } );
        }
        
        var hasPrimaryCat = 0;
@@ -146,18 +130,17 @@
             term = $( term );
             var listItem = term.closest( "li" );
             
-            // Create the interface items if they don't yet exist
-            if ( ! hasPrimaryCatElements( term ) ) {
-                // addPrimaryCatElements( term );
-            }
-            
             if ( listItem.hasClass( 'jkl-primary-category' ) ) {
                 hasPrimaryCat++;
+                
             }
             
             if ( getCategoryName( term, false ) === getPrimaryCategory() ) { 
                 
                 setPrimaryCategory( term );
+                if( pageLoad ) {
+                    listItem.prependTo( "#categorychecklist" );
+                }
                 
 //                listItem.addClass( "jkl-primary-category" );
 //                var label = term.closest( "label" );
@@ -166,6 +149,7 @@
             } else {
                 
                 listItem.addClass( "jkl-category-checked" );
+                listItem.removeClass( "jkl-primary-category" );
                 var label = term.closest( "label" );
                 label.append( "<button class='jkl-category-label jkl-make-primary-cat'>Set Primary</button>" );
                 
@@ -175,7 +159,7 @@
        // Obviously, hide the interface items on unchecked checkboxes
        uncheckedTerms.closest( "li" ).addClass( "jkl-category-unchecked" );
        
-       if( hasPrimaryCat < 1 ) {
+       if( hasPrimaryCat < 1 && ! pageLoad  ) {
           setPrimaryCategoryFirst();
        }
        
@@ -183,8 +167,9 @@
    
    
    
-   
+   var pageLoad = true;
    updateCategories();
+   pageLoad = false;
    
    /**
     * Checkbox handler for when a checkbox is clicked
@@ -192,22 +177,20 @@
 //   $( "#categorychecklist input:checkbox" ).change( function() { 
 //       updateCategories(); 
 //   } );
-    $( document ).on( "change", "#categorychecklist input:checkbox", function() {
+    $( document ).on( "change", "#categorychecklist input:checkbox", function( e ) {
+        ensurePrimaryCategory( e.target );
         updateCategories();
-    } );
-   
-   /**
-    * Highlight the current Primary Category if the user clicks to "Edit"
-    */
-   $( "#jkl-edit-primary-category" ).click( function() {
-        highlightPrimary( ".jkl-primary-category" );
     } );
     
     /**
      * Highlight the first Category li if the user clicks to "Set" or get "Help"
      */
-    $( "#jkl-set-primary-category, #jkl-pc-help" ).click( function() {
+    $( "#jkl-edit-primary-category, #jkl-set-primary-category, #jkl-pc-help" ).click( function() {
         highlightPrimary( "#categorychecklist li:first-child" );
+        $('html, body')
+                .animate( {
+                     scrollTop: $( "#categorydiv" ).offset().top
+                }, 400);
     } );
     
     /**
@@ -239,6 +222,7 @@
         
         /* Change Primary Category name in Publish metabox */
         $( "#jkl-primary-cat" ).html( getCategoryName( $(this), true ) );
+        $( "#jkl-primary-cat-hidden" ).val( getCategoryName( $(this), true ) );
         
         /* Also, don't forget to update categories after that */
         updateCategories(); 

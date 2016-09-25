@@ -145,14 +145,15 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
                 echo '<div id="jkl-pc-notice" class="misc-pub-section">';
                 echo '<span class="dashicons dashicons-category"></span>';
                 echo 'Primary Category: ';
-                if ( isset( $primary_cat ) && $primary_cat != null ) {
-                    echo '<span id="jkl-primary-cat">';
-                    echo $primary_cat;
-                    echo '</span>';
-                    echo '<a id="jkl-edit-primary-category" href="#">Edit</a>';
-                } else {
-                    echo '<a id="jkl-set-primary-category" href="#">Set</a> <a id="jkl-pc-help" href="#" title="1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category">Help</a>';
-                }
+                // if ( ! isset( $primary_cat ) || $primary_cat == null ) {
+                echo '<span id="jkl-primary-cat">';
+                echo $primary_cat;
+                echo '</span>';
+                echo '<a id="jkl-edit-primary-category" href="#">Edit</a> ';
+                //} else {
+                echo '<a id="jkl-set-primary-category" href="#">Set</a> <a id="jkl-pc-help" href="#" title="1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category">Help</a>';
+                //}
+                echo '<input id="jkl-primary-cat-hidden" name="jkl_primary_category" type="hidden" value="" />';
                 echo '</div>';
                 
             }
@@ -197,7 +198,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
          * @since   0.0.1
          * @link    https://joebuckle.me/quickie/wordpress-add-options-to-post-admin-publish-meta-box/
          */
-        public function jkl_save_primary_cat( $post_id, $post, $update ) {
+        public function jkl_save_primary_cat() {
+            
+            global $post;
             
             // Avoid Pages
             if ( $post->post_type == 'page' ) { return; }
@@ -205,7 +208,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) ) {
             if ( wp_is_post_revision( $post_id ) ) { return; }
             
             if ( isset( $_POST[ 'jkl_primary_category' ] ) ) {
-                update_post_meta( $post_id, 'jkl_primary_category', $_POST[ 'jkl_primary_category' ] );
+                update_post_meta( $post->ID, 'jkl_primary_category', $_POST[ 'jkl_primary_category' ] );
             } //else if ( ) {
                 //update_post_meta( $post_id, 'jkl_primary_category', );
             //}
