@@ -12,7 +12,7 @@
     <p class="about-text">
         <?php _e( 'Built for 10up; performs like Yoast SEO\'s Primary Terms.' ); ?>
     </p>
-    <div class="wp-badge tenup-style">Engineering Exercise</div>
+    <div class="wp-badge tenup-style">Engineering<br>Exercise</div>
     
     <h2 class="nav-tab-wrapper wp-clearfix">
         <a href="#" class="nav-tab nav-tab-active">
@@ -28,8 +28,8 @@
         <p><strong>Version 1.0.0</strong> addresses the Challenge to "allow publishers to designate a Primary Category for Posts."</p>
     </div>
     
-    <div class="headline-feature feature-video">
-
+    <div class="feature-section">
+        <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/assets/banner-1544x500.jpg' ) ); ?>">
     </div>
     <hr>
     
@@ -74,6 +74,7 @@
     </div>
     <hr>
     <div class="feature-section git-meta-boxes two-col">
+        <h2>Easy, Instant Interaction</h2>
         <div class="col">
             <h4>jQuery Functionality</h4>
             <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/images/primary-categories.gif' ) ); ?>">
@@ -113,18 +114,19 @@
     </div>
     <hr>
     <div class="feature-section like-yoast">
-        <h2>Yoast SEO Conflict will prevent loading</h2>
-        <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/images/yoast-conflict.png' ) ); ?>">
+        <h2>Yoast SEO Conflict</h2>
         <p>
             Because this plugin adds functionality that mimics Yoast 
             SEO's functionality, there is an obvious conflict if both plugins are 
-            active at the same time. 
+            active at the same time. (They will each load their own jQuery "Make 
+            Primary" elements.)
             <br></br>
             So, JKL Primary Categories first performs a check to see if the 
             <code>WPSEO_Primary_Term</code> class from Yoast SEO already exists. 
-            If so, it does not create an instance of itself, but rather pops up 
-            an admin error message.
+            If so, it pops up an admin error message. Then, after disabling 
+            Yoast, the JKL Primary Categories Welcome Page is displayed.
         </p>
+        <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/images/yoast-conflict.png' ) ); ?>">
     </div>
     <hr>
     

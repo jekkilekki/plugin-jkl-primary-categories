@@ -88,14 +88,15 @@ function run_jkl_pc() {
         
         // Instantiate the plugin class
         $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '1.0.0' );
-        register_activation_hook( __FILE__, 'jkl_pc_create_welcome_screen' );
     
     } else {
         
+        //include_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-primary-categories.php';
         add_action( 'admin_notices', 'jkl_pc_compatibility_issue' );
         //die;
         
     }
 }
-run_jkl_pc();
-//add_action( 'plugins_loaded', 'run_jkl_pc' );
+
+register_activation_hook( __FILE__, 'jkl_pc_create_welcome_screen' );
+add_action( 'plugins_loaded', 'run_jkl_pc' );
