@@ -14,12 +14,12 @@ Type that has more than one category selected. Performs like Yoast SEO's impleme
 
 Requires WordPress 3.5 and PHP 5.5 or later.
 
-After I updated Yoast SEO to version 3.1 on one of my sites, I noticed there was a 
+After I updated [Yoast SEO to version 3.1](https://yoast.com/yoast-seo-3-1/) on one of my sites, I noticed there was a 
 new "Primary" label attached to the main Category saved in a Post. On Posts with 
 more than one Category selected, there also appeared a link to "Make Primary" that 
 would allow me to instantly change the Primary Category (and permalink) for that Post
 (if `/%category%/` was selected in the permalinks structure). I thought it was a 
-_superb_ implementation of something that "SHOULD be in WordPress core" but I also 
+__superb__ implementation of something that ["SHOULD be in WordPress core"](https://yoast.com/yoast-seo-3-1/) but I also 
 wanted to add a few minor tweaks to make it a bit more User friendly from the start.
 
 ###Special Features 
@@ -76,7 +76,7 @@ displayed to the user helping them to understand how to use the plugin
 5. (Optional) Use `/%category%/` in your Permalinks structure
 
 ###Notes
-* _There is a plugin conflict with Yoast SEO_ because the functionality of the two 
+* __There is a plugin conflict with Yoast SEO__ because the functionality of the two 
 plugins with regard to Primary Categories is virtually the same. Therefore, Yoast SEO 
 should be deactivated if you want to use this plugin. You will receive an admin 
 warning message if both plugins are activated at the same time (and double interface 
