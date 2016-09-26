@@ -18,8 +18,10 @@ After I updated [Yoast SEO to version 3.1](https://yoast.com/yoast-seo-3-1/) on 
 new "Primary" label attached to the main Category saved in a Post. On Posts with 
 more than one Category selected, there also appeared a link to "Make Primary" that 
 would allow me to instantly change the Primary Category (and permalink) for that Post
-(if `/%category%/` was selected in the permalinks structure). I thought it was a 
-__superb__ implementation of something that ["SHOULD be in WordPress core"](https://yoast.com/yoast-seo-3-1/) but I also 
+(if `/%category%/` was selected in the permalinks structure). 
+
+I thought it was a __superb__ implementation of something that 
+["SHOULD be in WordPress core"](https://yoast.com/yoast-seo-3-1/) but I also 
 wanted to add a few minor tweaks to make it a bit more User friendly from the start.
 
 ###Special Features 
