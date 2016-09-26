@@ -185,7 +185,7 @@
     /**
      * Highlight the first Category li if the user clicks to "Set" or get "Help"
      */
-    $( "#jkl-set-primary-category, #jkl-pc-help" ).click( function() {
+    $( "#jkl-set-primary-category" ).click( function() {
         highlightPrimary( "#categorychecklist li:first-child" );
         $('html, body')
                 .animate( {

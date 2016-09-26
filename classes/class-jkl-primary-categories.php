@@ -214,8 +214,12 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             
             $selected_categories_names = $this->jkl_get_the_category_names( $post_categories );
             
+            if ( $primary_cat != '' ) {
             // Return the ID of the Primary Category
-            return $post_categories[ array_search( $primary_cat, $selected_categories_names, true ) ]->term_id;
+                return $post_categories[ array_search( $primary_cat, $selected_categories_names, true ) ]->term_id;
+            } else {
+                return '';
+            }
             
         }
         
