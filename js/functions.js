@@ -1,6 +1,5 @@
 /**
- * Main jQuery function that controls all the adding of <span> tags, classes, 
- * and resizing/responsiveness for the pricing tables
+ * Main jQuery function that controls all the functionality of the plugin.
  * 
  * @since   0.0.1
  * @param   jQuery  $
@@ -14,11 +13,17 @@
  * 3. Surrounds any "per" units (/month) in the price field with <span> tags for better styling
  */
 
+/**
+ * @TODO: Internationalization of this JavaScript
+ */
+
 ( function ( $ ) {
    "use strict";
    
    /**
     * Highlights the Primary Category whenever some action happens regarding it
+    * 
+    * @param    Object  term     The Primary Category <li> element
     */
    function highlightPrimary( term ) {
         $( term )
@@ -28,6 +33,8 @@
    
    /**
     * Gets the Primary Category name from our Publish Metabox (which is set using the get_post_meta() function in PHP)
+    * 
+    * @return   String      The current Primary Category name
     */
    function getPrimaryCategory() {
        return $( "#jkl-primary-cat" ).html();
@@ -35,17 +42,23 @@
    
    /**
     * Function to be sure we always have a Primary Category labeled in the Publish Meta box if there is at least one Category checked
+    * 
+    * @param    Object  term     The Primary Category <li> element
     */
    function ensurePrimaryCategory( term ) {
        
+       // Get all selected Categories
        var checkedTerms = $( "#categorychecklist input[type='checkbox']:checked" );
        
+        // If there is not Primary Category set now
         if( $( "#jkl-primary-cat" ).html() == "" ) {
-            term = $( term );
-            //alert( term.value() );
-            /* Change Primary Category name in Publish metabox */
+            term = $( term );   // make a jQuery object
+            // Change Primary Category name in Publish meta box
              $( "#jkl-primary-cat" ).html( getCategoryName( term, true ) );
-        } else if ( checkedTerms.length < 1 ) {
+        } 
+        // OR if there are currently no selected Categories
+        else if ( checkedTerms.length < 1 ) {
+            // Then set the Publish meta box Primary Category value to an empty String
             $( "#jkl-primary-cat" ).html( "" );
         }
         
@@ -53,15 +66,31 @@
    
    /**
     * Gets the Category name from an <input> element
+    * 
+    * @param    Object  term            The current Primary Category
+    * @param    bool    newPrimaryCat   True if we are setting a , false otherwise 
+    * 
+    * @return   String                  The name of the Primary Category
     */
    function getCategoryName( term, newPrimaryCat ) {
+       
+       // Get the HTML from the <label> closest to the term we are using
        var findPrimaryCat = term.closest( 'label' ).html();
+       // Split the HTML into different elements so we can isolate the name of the Category from the rest of the HTML
        var htmlArr = findPrimaryCat.split( ' ' );
+       
+       // If our boolean is set to TRUE that this is a NEW Primary Category
        if( newPrimaryCat ) {
+           // Find the opening < on the HTML tag, ...
            var end = htmlArr[ htmlArr.length - 4 ].indexOf( '<' );
+           // ... and get the NAME of the Category up to that point
            var newCatName = htmlArr[ htmlArr.length - 4 ].substr(0, end);
+           // Return the new Category name
            return newCatName;
-       } else {
+       } 
+       // Else, this is NOT a new Primary Category, but rather the first on a Post load
+       else {
+            // Return the last String in the HTML array (which is the Category name)
             return htmlArr[ htmlArr.length - 1 ];
         }
    }
@@ -71,22 +100,31 @@
     */
    function setPrimaryCategoryFirst() {
        
+       // Find the very first checkbox that is selected
        var firstCategory = $( "#categorychecklist input[type='checkbox']:checked:first" );
+       // Remove the Primary Category class from the nearest <li> (just in case)
        firstCategory.closest( 'li' ).removeClass( 'jkl-primary-category' );
+       // Remove any interface elements from the first selected checkbox
        firstCategory.next().remove();
+       // Call the function to set THIS as the Primary Category
        setPrimaryCategory( firstCategory );
-       // updateCategories();
+
    }
    
    /**
     * Sets a new Primary Category
+    * 
+    * @param    Object  term    The current Primary Category
     */
    function setPrimaryCategory( term ) {
        //$( "#jkl-primary-category" ).val( termId ).trigger( "change" );
-        term = $( term );
+        term = $( term );   // make a jQuery Object
+        
+        // Give the nearest <li> a class of 'jkl-primary-category'
         var listItem = term.closest( "li" );
         listItem.addClass( "jkl-primary-category" );
         
+        // Add a disabled button (like a label) called "Primary" to the nearest <label>
         var label = term.closest( "label" );
         label.append( "<button class='jkl-category-label jkl-primary-category-button' disabled>Primary</button>" );
         
@@ -97,9 +135,10 @@
    }
    
    /**
+    * The MAIN function that handles all the updating of Primary Categories
     * Sees which Categories are checked and adds a 'jkl-category-checked/unchecked' class to each
     */
-   function updateCategories( ) {
+   function updateCategories() {
        
        var checkedTerms = $( "#categorychecklist input[type='checkbox']:checked" );
        var uncheckedTerms = $( "#categorychecklist input[type='checkbox']:not(:checked)" );
@@ -132,7 +171,6 @@
             
             if ( listItem.hasClass( 'jkl-primary-category' ) ) {
                 hasPrimaryCat++;
-                
             }
             
             if ( getCategoryName( term, false ) === getPrimaryCategory() ) { 
@@ -165,8 +203,7 @@
        
    }
    
-   
-   
+   // RUN PROGRAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    var pageLoad = true;
    updateCategories();
    pageLoad = false;
@@ -174,9 +211,6 @@
    /**
     * Checkbox handler for when a checkbox is clicked
     */
-//   $( "#categorychecklist input:checkbox" ).change( function() { 
-//       updateCategories(); 
-//   } );
     $( document ).on( "change", "#categorychecklist input:checkbox", function( e ) {
         ensurePrimaryCategory( e.target );
         updateCategories();

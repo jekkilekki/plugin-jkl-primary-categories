@@ -42,7 +42,7 @@
 if ( ! defined( 'WPINC' ) ) die;
 
 /*
- * The class that represents and defines the core plugin
+ * The class that represents and defines the Core plugin
  */
 require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-primary-categories.php';
 
@@ -58,18 +58,17 @@ require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-pc-admin-pointer.p
 
 /**
  * Function to run on plugin activation to create our Welcome Page
- * 
  * @link    https://premium.wpmudev.org/blog/plugin-welcome-screen/         Basic function calls & structure
  * @link    http://www.wpexplorer.com/how-to-wordpress-custom-dashboard/    Basic Welcome Page Styles
  */
 function jkl_pc_create_welcome_screen() {
-
    set_transient( '_jkl_pc_welcome_redirect', true, 0 ); // 30 seconds later, it cleans up after itself
-   //$JKL_PC_Welcome = new JKL_PC_Welcome();
+   flush_rewrite_rules();
+    //$JKL_PC_Welcome = new JKL_PC_Welcome();
 }
 
 /**
- * 
+ * Function that displays an admin error message if Yoast SEO is found to be an active plugin
  */
 function jkl_pc_compatibility_issue() {
     ?>
@@ -84,6 +83,7 @@ function jkl_pc_compatibility_issue() {
  */
 function run_jkl_pc() {
     
+    // If Yoast SEO is not active
     if( ! class_exists( 'WPSEO_Primary_Term' ) ) {
         
         // Instantiate the plugin class
@@ -91,12 +91,13 @@ function run_jkl_pc() {
     
     } else {
         
-        //include_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-primary-categories.php';
+        // Pop up our compatibility issue warning
         add_action( 'admin_notices', 'jkl_pc_compatibility_issue' );
-        //die;
         
     }
 }
 
+// The Welcome Page requires an activation hook - it will only run when the plugin is first activated
 register_activation_hook( __FILE__, 'jkl_pc_create_welcome_screen' );
+// Run the JKL Primary Categories plugin after the plugins loaded hook - this allows us to check for Yoast SEO
 add_action( 'plugins_loaded', 'run_jkl_pc' );
