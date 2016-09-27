@@ -48,6 +48,19 @@
     outline: transparent;
 }
 
+/**
+ * Admin Pointers
+ */
+.wp-pointer {
+    /*margin-top: -10px;*/
+}
+.wp-pointer-buttons a.close {
+    padding-left: 10px;
+}
+.wp-pointer-buttons a.close:before {
+    display: none !important;
+}
+
 /*
  * WELCOMING PAGE
  */

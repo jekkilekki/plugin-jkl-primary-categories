@@ -164,18 +164,38 @@
     </div>
     <hr>
     
-    <div class="feature-section admin-pointer two-col">
+    <div class="feature-section admin-pointer">
         <h2>Get Help</h2>
+        <p>When adding a New Post, there are no Categories selected by default, so the interface buttons in the Publish meta box provide a nice tour of the plugin's functionality (using WP Admin Pointers) when you click "Help."</p>
+        <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/images/tour.gif' ) ); ?>">
+    </div>
+    <hr>
+    
+    <div class="feature-section learning three-col">
+        <h2>What I Learned</h2>
         <div class="col">
-            <img>
-            <h3>Buttons in the Publish Meta box</h3>
-            <p></p>
+            <h4>The Publish meta box</h4>
+            <p>I knew there was a way to modify the content that appears in the Publish meta box because I've seen numerous plugins doing that. I just didn't know how initially (I thought I might have to use a filter hook to add content there). But then I found out the 'post_submitbox_misc_actions' action hook was what I needed to use.</p>
         </div>
         <div class="col">
-            <img>
-            <h3>Handy highlighting</h3>
-            <p></p>
+            <h4>Plugin Welcome Page</h4>
+            <p>I'd always been curious how plugin Welcome Pages were created and why they showed up on plugin activation. By creating this plugin's Welcome Page (specifically for the 10up team), I learned about transients (and that I must set them in the base plugin file), activation hooks, and also that I should use the 'plugins_loaded' action hook to check for other plugins that might cause conflicts (like Yoast).</p>
         </div>
+        <div class="col">
+            <h4>Admin Pointers</h4>
+            <p>I knew from the beginning that I wanted some kind of "Help" for new users of the plugin to better understand how the plugin worked. My first idea was just a simple title attribute or a CSS tooltip on the "Help" link that would pop up when hovered over. However, as I got to investigating things, I came across Admin Pointers and realized that they would provide the perfect solution.</p>
+        </div>
+    </div>
+    <div class="feature-section more-to-learn">
+        <h2>More to Learn</h2>
+        <p>I'd still like to really learn how to use wp_localize_script() in order to decouple my Admin Pointer JavaScript from its PHP class, and also so that I can make my JavaScript strings translatable.</p>
+    </div>
+    <hr>
+    
+    <div class="changelog thanks">
+        <h2>Thanks 10up!</h2>
+        <p>Thanks again for this opportunity to work on a small engineering exercise for you!</p>
+        <p>As you can see, I am very detail oriented, a bit of a perfectionist, and I really like to challenge myself to push my boundaries and learn NEW things with every new project. I hope we can continue our discussion about possible employment with your team. I look forward to hearing from you!</p>
     </div>
 </div>
 <div class="clear"></div>
