@@ -2,6 +2,7 @@
 /**
  * @package         JKL_Primary_Categories
  * @author          Aaron Snowberger <jekkilekki@gmail.com>
+ * @since           0.0.1
  * 
  * The Welcome Page for the plugin.
  * 
@@ -9,10 +10,8 @@
  * 
  * @link            https://premium.wpmudev.org/blog/plugin-welcome-screen
  */
-
 /* Prevent direct access */
 if ( ! defined( 'ABSPATH' ) ) exit;
-
 /* Avoid redefining a class with the same name */
 if ( ! class_exists( 'JKL_PC_Welcome' ) ) {
     
@@ -22,34 +21,34 @@ if ( ! class_exists( 'JKL_PC_Welcome' ) ) {
          * CONSTRUCTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          * Initializes the JKL_Primary_Categories Object and sets its properties
          * @since   0.0.1
-         * @var     String  $version    The version of this plugin.
-         * @var     String  $name       The ID of this plugin.
          */
         public function __construct() {
             
             // Load the plugin and supplementary files
             $this->run();
             
-        }
+        } // END __construct()
         
         /**
-         * 
+         * Hooks into admin actions to create our Welcome Page and show it 
+         * immediately upon plugin activation
          */
         public function run() {
             
-            //set_transient( '_jkl_pc_welcome_redirect', true, 0 );
-            
+            // Redirect to the Welcome Screen
             add_action( 'admin_init', array( $this, 'jkl_pc_welcome_screen_redirect' ) );
-            
+            // Create the Welcome Screen
             add_action( 'admin_menu', array( $this, 'jkl_pc_welcome_screen_page' ) );
-            
+            // Remove the Welcome Screen from the menus
             add_action( 'admin_head', array( $this, 'jkl_pc_welcome_screen_remove_menus' ) );
-        }
+            
+        } // END run()
         
         /**
-         * 
+         * Redirects the user to our Welcome Page
          */
         public function jkl_pc_welcome_screen_redirect() {
+            
             // Bail if no activation redirect
             if( ! get_transient( '_jkl_pc_welcome_redirect' ) ) { return; }
             
@@ -63,31 +62,37 @@ if ( ! class_exists( 'JKL_PC_Welcome' ) ) {
             wp_safe_redirect( add_query_arg( array( 
                 'page'      => 'jkl-pc-welcome' 
             ), admin_url( 'index.php' ) ) );
-        }
+            
+        } // END jkl_pc_welcome_screen_redirect()
         
         /**
-         * 
+         * Create the Welcome Screen
          */
         public function jkl_pc_welcome_screen_page() {
+            
+            // Add a Page to the Dashboard
             add_dashboard_page(
-                    'JKL Primary Categories',
-                    'JKL Primary Categories',
-                    'read', 
-                    'jkl-pc-welcome',             // page name
-                    array( $this, 'jkl_welcome_screen_content' )            // callback
+                    'JKL Primary Categories',                       // $page_title
+                    'JKL Primary Categories',                       // $menu_title
+                    'read',                                         // $capability
+                    'jkl-pc-welcome',                               // $menu_slug
+                    array( $this, 'jkl_welcome_screen_content' )    // $function callback
             );
-        }
+            
+        } // END jkl_pc_welcome_screen_page()
         
         /**
-         * 
+         * Renders the Welcome Page (calls a View file)
          */
         public function jkl_welcome_screen_content() {
-            // Require the View for the Welcome Page
-            require_once plugin_dir_path( __FILE__ ) . '../views/view-jkl-pc-welcome-page.php';
-        }
+            
+            // Include the View for the Welcome Page
+            include_once plugin_dir_path( __FILE__ ) . '../views/view-jkl-pc-welcome-page.php';
+        
+        } // END jkl_welcome_screen_content()
         
         /**
-         * 
+         * Remove the Welcome Screen from the WordPress menus so users can't click it again
          */
         public function jkl_pc_welcome_screen_remove_menus() {
             remove_submenu_page( 'index.php', 'jkl-pc-welcome' );

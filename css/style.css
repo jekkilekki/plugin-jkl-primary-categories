@@ -1,4 +1,6 @@
-/* Publish Meta box */
+/** 
+ * Publish Meta box 
+ */
 #jkl-pc-notice .dashicons {
     color: #82878c; 
     padding-right: 5px;
@@ -15,7 +17,9 @@
     display: none;
 }
 
-/* Category Div */
+/** 
+ *Category Div 
+ */
 .jkl-category-label {
     float: right;
 }
@@ -43,7 +47,6 @@
 .jkl-make-primary-cat:active {
     outline: transparent;
 }
-
 
 /*
  * WELCOMING PAGE
