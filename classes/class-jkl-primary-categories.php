@@ -75,6 +75,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             
             // Create the Plugin Welcome Page
             $this->welcome_page = new JKL_PC_Welcome();
+            $this->admin_pointer = new JKL_PC_Admin_Pointer();
             
             // Load the plugin and supplementary files
             $this->load();
