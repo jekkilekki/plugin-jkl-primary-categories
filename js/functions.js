@@ -154,12 +154,14 @@
        // Publish meta box if only one Category is selected
        if ( checkedTerms.length < 1 ) {
            $( "#jkl-primary-cat, #jkl-edit-primary-category" ).css( { "display" : "none" } );
-           $( "#jkl-set-primary-category, #jkl-pc-help" ).css( { "display" : "inline" } );
+           $( "#jkl-set-primary-category, .jkl-pc-help-button-text" ).css( { "display" : "inline" } );
+           $( ".jkl-pc-help-button-text" ).removeClass( 'screen-reader-text' );
            return;
        } else {
            // Show "Edit" option and Primary Category <span> if there is 1 or more Categories selected
            $( "#jkl-primary-cat, #jkl-edit-primary-category" ).css( { "display" : "inline" } );
-           $( "#jkl-set-primary-category, #jkl-pc-help" ).css( { "display" : "none" } );
+           $( "#jkl-set-primary-category, .jkl-pc-help-button-text" ).css( { "display" : "none" } );
+           $( ".jkl-pc-help-button-text" ).addClass( 'screen-reader-text' );
        }
        
        // Variable to count the number of Primary Categories (could probably be a bool also)

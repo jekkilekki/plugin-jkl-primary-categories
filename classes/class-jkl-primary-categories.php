@@ -186,7 +186,8 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                     <a id="jkl-pc-help" href="#" title="<?php
                         esc_html_e( '1) Select a category or two, 2) SAVE the Post, 3) Set your Primary Category', 'jkl-primary-categories' ); 
                         ?>">
-                        <?php esc_html_e( 'Help', 'jkl-primary-categories' ); ?>
+                        <span class="jkl-pc-help-button-text screen-reader-text"><?php esc_html_e( 'Help', 'jkl-primary-categories' ); ?></span>
+                        <span class="jkl-pc-help-button"></span>
                     </a>
 
                     <!-- Hidden input fields that contain and will save the custom Post meta information -->
