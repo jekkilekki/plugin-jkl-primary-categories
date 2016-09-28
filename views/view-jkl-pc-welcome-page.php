@@ -247,8 +247,9 @@
     <hr>
     
     <div class="return-to-dashboard">
-        <?php printf( wp_kses( __( '<a href="%s>Get started! &rarr; Choose a Primary Category for a Post</a>' ),
-                    array( 'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'edit.php' ) ) ); ?>
+        <a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>">
+            <?php esc_html_e( 'Get started! &rarr; Choose a Primary Category for a Post' ); ?>
+        </a>
     </div>
 </div>
 <div class="clear"></div>
