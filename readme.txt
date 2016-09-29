@@ -8,8 +8,8 @@ Donate link:            https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&host
 Tags:                   categories, primary, permalinks, jquery, breadcrumbs
 Requires at least:      3.5
 Tested up to:           4.6
-Stable tag:             1.0.1
-Version:                1.0.1
+Stable tag:             1.0.2
+Version:                1.0.2
 License:                GPLv2 or later
 License URI:            http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -183,6 +183,10 @@ program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fi
 Floor, Boston, MA 02110-1301 USA
 
 == Changelog ==
+
+= 1.0.2 (Sept 30, 2016) =
+* Decouple Admin Pointer JavaScript from the PHP class
+* Localize JavaScript for translations
 
 = 1.0.1 (Sept 29, 2016) =
 * Code restructuring, cleanup, and commenting

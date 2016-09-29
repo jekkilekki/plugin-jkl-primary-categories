@@ -345,7 +345,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          */
         public function jkl_pc_add_admin_pointers() {
             return array(
-                array(
+                'slide' => array(
                     'id'       => 'jklpc1',
                     'screen'   => '', // post, page, etc
                     'target'   => '#jkl-pc-help',
@@ -356,7 +356,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                         'align' => 'top' // top, bottom, left, right, middle
                     )
                 ),
-                array(
+                'slide2' => array(
                     'id'       => 'jklpc2',
                     'screen'   => '', // post, page, etc
                     'target'   => '#categorychecklist',
@@ -367,7 +367,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                         'align' => 'top' // top, bottom, left, right, middle
                     )
                 ),
-                array(
+                'slide3' => array(
                     'id'       => 'jklpc3',
                     'screen'   => '', // post, page, etc
                     'target'   => '#edit-slug-box',

@@ -1,12 +1,16 @@
 /**
+ * @package     JKL_Primary_Categories
+ * @author      Aaron Snowberger <jekkilekki@gmail.com>
+ * @since       1.0.2
+ * 
  * Main jQuery function that controls all the functionality of the plugin.
  * 
  * 1) Defines functions created to deal with Primary Category button interactivity
  * 2) Adds "click" and "change" 
  * 
- * @since   0.0.1
- * @param   jQuery  $
- * @link    https://github.com/Yoast/wordpress-seo/blob/trunk/js/dist/wp-seo-metabox-category-350.js
+ * @param       jQuery  $
+ * @link        https://github.com/Yoast/wordpress-seo/blob/trunk/js/dist/wp-seo-metabox-category-350.js
+ *              Helpful to understand the necessary functionality for handling the Primary Category JS in the Categories meta box
  */
 
 /**

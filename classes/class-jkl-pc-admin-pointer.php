@@ -62,7 +62,7 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
             // Add "valid" pointers - we'll make all of them valid all the time for now - since it's a tour feature
             add_action( 'admin_enqueue_scripts', array( $this, 'add_pointers' ), 1000 );
             // Add the pointer scripts
-            add_action( 'admin_print_footer_scripts', array( $this, 'add_pointer_scripts' ) );
+            // add_action( 'admin_print_footer_scripts', array( $this, 'add_pointer_scripts' ) );
             
         } // END run()
         
@@ -81,14 +81,14 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
                 $options = array(
                     'content'  => sprintf(
                         '<h3>%s</h3><p>%s</p>', 
-                        __( $ptr['title'], 'jkl-primary-categories' ), 
-                        __( $ptr['content'], 'jkl-primary-categories' )
+                        __( $ptr[ 'title' ], 'jkl-primary-categories' ), 
+                        __( $ptr[ 'content' ], 'jkl-primary-categories' )
                     ),
-                    'position' => $ptr['position']
+                    'position' => $ptr[ 'position' ]
                 );
-                $screen_pointers[$ptr['id']] = array(
-                    // 'screen'  => $ptr['screen'],
-                    'target'  => $ptr['target'],
+                $screen_pointers[ $ptr[ 'id' ] ] = array(
+                    // 'screen'  => $ptr['screen'], // If we wanted to use different screens
+                    'target'  => $ptr[ 'target' ],
                     'options' => $options
                 );
                 
@@ -148,108 +148,12 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
             // then we won't enqueue unnecessary scripts and styles
             wp_enqueue_style( 'wp-pointer' );
             wp_enqueue_script( 'wp-pointer' );
-
-            // @TODO - figure out wp_localize_script so we can decouple the JS (below) from the PHP
-            // $pointers = json_encode( $this->valid );
-            // wp_enqueue_script( 'jkl-pc-pointer-script', plugins_url( '../js/jkl-pc-pointer.js', __FILE__ ), array( 'wp-pointer' ), '20160922', true );
-            // wp_localize_script( 'jkl-pc-pointer-script', 'jklPcPointer', array( 'pointers' => $pointers ) );
+            
+            // Add our custom Admin Pointers script and localize our Pointer data to use in the script
+            wp_enqueue_script( 'jkl-pc-pointer-script', plugins_url( '../js/jkl-pc-pointer.js', __FILE__ ), array( 'wp-pointer' ), '20160922', true );
+            wp_localize_script( 'jkl-pc-pointer-script', 'jklPcPointer', json_encode( $this->pointers ) );
             
         } // END add_pointers()
-        
-        /**
-         * Print JavaScript if pointers are available
-         * @since   0.0.1
-         */
-        public function add_pointer_scripts() {
-            
-            // Bail if there are no valid pointers
-            if( empty( $this->valid ) )
-                return;
-            
-            // Otherwise, encode our valid pointers array into JSON so we can use it in our script
-            $pointers = json_encode( $this->valid );
-            
-            // Script
-            echo <<<HTML
-<script type="text/javascript">
-//<![CDATA[
-	jQuery(document).ready( function($) {
-            
-                // Get our pointers from PHP
-		var WPHelpPointer = {$pointers};
-                
-                // Counts the number (id) of the current pointer (for our tour)
-                var count = 0;
-                
-                // Whenever the user clicks our "Help" button or icon
-                $( "#jkl-pc-help" ).click( function( e ) {
-                    e.preventDefault();
-                    // Don't run if there are already visible pointers
-                    if( ! $( '.wp-pointer' ).is( ':visible' ) ) {
-                        // Open the next (based on count) pointer
-                        wp_help_pointer_open( count );
-                    }
-                } );
-                
-                // Whenever a user clicks the "Next" button on a pointer
-                $( document ).on( 'click', "#jkl-pc-help-next", function( e ) {
-                    e.preventDefault();
-                    // Open the next pointer
-                    wp_help_pointer_open(count);
-                } );
-                
-		function wp_help_pointer_open( i ) {
-                        
-                        // Set variables for ease of use later
-                        pointer = WPHelpPointer.pointers[ i ];
-                        prevPointer = WPHelpPointer.pointers[ i-1 ];
-                        nextPointer = WPHelpPointer.pointers[ i+1 ];
-  
-                        // Set the current pointer's options
-			$( pointer.target ).pointer( {
-                
-				content: pointer.options.content,
-				position: 
-				{
-					edge: pointer.options.position.edge,
-					align: pointer.options.position.align
-				},
-				close: function() 
-				{
-					$.post( ajaxurl, 
-					{
-						pointer: pointer.pointer_id,
-						action: 'dismiss-wp-pointer'
-					});
-				}
-			}).pointer('open'); // and open it
-
-                        // If there is a previous pointer, then close it
-                        if( prevPointer !== undefined ) {
-                            $( prevPointer.target ).pointer( 'close' );
-                        }
-                        // And increase our count variable to keep track of our pointer position
-                        count++;
-                
-                        // If there is a next pointer
-                        if( nextPointer !== undefined ) {
-                            // Remove the "Dismiss" button and add a "Next" button in its place
-                            $( '.wp-pointer-buttons' ).find( 'a.close' ).remove();
-                            $( '.wp-pointer-buttons' ).append('<a class="button-primary" id="jkl-pc-help-next">Next</a>');
-                        } else {
-                            // Or, if it's the last pointer, change the "Dismiss" link's style to look like a button
-                            $( '.wp-pointer-buttons' ).find( 'a.close' ).addClass( 'button-primary' );              
-                            // And reset count to 0 so we can start the tour over again if necessary
-                            count = 0;
-                        }
-                
-		} // END wp_help_pointer_open()
-                
-	}); // END jQuery function
-//]]>
-</script>
-HTML;
-        } // END add_pointer_scripts()
 
     } // END class JKL_PC_Welcome
     

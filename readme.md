@@ -2,7 +2,7 @@
 
 #JKL Primary Categories
 
-`Version 1.0.1`
+`Version 1.0.2`
 
 * [Plugin Page](https://github.com/jekkilekki/plugin-jkl-primary-categories)
 * [Author Page](http://www.aaronsnowberger.com/)
@@ -135,6 +135,10 @@ program; if not, write to the Free Software Foundation, Inc., 51 Franklin St, Fi
 Floor, Boston, MA 02110-1301 USA
 
 ##Changelog
+
+###1.0.2 (Sept 30, 2016)
+* Decouple Admin Pointer JavaScript from the PHP class
+* Localize JavaScript for translations
 
 ###1.0.1 (Sept 29, 2016)
 * Code restructuring, cleanup, and commenting
