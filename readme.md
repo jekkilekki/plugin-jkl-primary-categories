@@ -2,7 +2,7 @@
 
 #JKL Primary Categories
 
-`Version 1.0.0`
+`Version 1.0.1`
 
 * [Plugin Page](https://github.com/jekkilekki/plugin-jkl-primary-categories)
 * [Author Page](http://www.aaronsnowberger.com/)
@@ -136,5 +136,8 @@ Floor, Boston, MA 02110-1301 USA
 
 ##Changelog
 
-###1.0
+###1.0.1 (Sept 29, 2016)
+* Code restructuring, cleanup, and commenting
+
+###1.0.1 (Sept 28, 2016)
 * Initial release

@@ -8,8 +8,8 @@ Donate link:            https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&host
 Tags:                   categories, primary, permalinks, jquery, breadcrumbs
 Requires at least:      3.5
 Tested up to:           4.6
-Stable tag:             1.0.0
-Version:                1.0.0
+Stable tag:             1.0.1
+Version:                1.0.1
 License:                GPLv2 or later
 License URI:            http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -184,5 +184,8 @@ Floor, Boston, MA 02110-1301 USA
 
 == Changelog ==
 
-= 1.0 =
+= 1.0.1 (Sept 29, 2016) =
+* Code restructuring, cleanup, and commenting
+
+= 1.0.0 (Sept 28, 2016) =
 * Initial release

@@ -19,12 +19,12 @@ if ( ! class_exists( 'JKL_PC_Welcome' ) ) {
         
         /**
          * CONSTRUCTOR!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-         * Initializes the JKL_Primary_Categories Object and sets its properties
+         * Initializes the JKL_PC_Welcome Object and sets its properties
          * @since   0.0.1
          */
         public function __construct() {
             
-            // Load the plugin and supplementary files
+            // Call WordPress action and filter hooks to run the plugin
             $this->run();
             
         } // END __construct()

@@ -8,7 +8,7 @@
  * Plugin Name:     JKL Primary Categories
  * Plugin URI:      https://github.com/jekkilekki/plugin-jkl-primary-categories
  * Description:     A simple plugin that allows you to set a Primary Category for a Post or Custom Post Type that has more than one category selected. Performs like Yoast SEO's implementation.
- * Version:         1.0.0
+ * Version:         1.0.1
  * Author:          Aaron Snowberger
  * Author URI:      http://www.aaronsnowberger.com
  * Text Domain:     jkl-primary-categories
@@ -64,8 +64,8 @@ require_once plugin_dir_path( __FILE__ ) . 'classes/class-jkl-pc-admin-pointer.p
  */
 function jkl_pc_create_welcome_screen() {
 
-   set_transient( '_jkl_pc_welcome_redirect', true, 0 ); // 30 seconds later, it cleans up after itself
-   //$JKL_PC_Welcome = new JKL_PC_Welcome();
+   set_transient( '_jkl_pc_welcome_redirect', true, 0 ); // 0 = unlimited time
+
 }
 
 /**
@@ -88,7 +88,7 @@ function run_jkl_pc() {
     if( ! class_exists( 'WPSEO_Primary_Term' ) ) {
         
         // Instantiate the plugin class
-        $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '1.0.0' );
+        $JKL_PC = new JKL_Primary_Categories( 'jkl-primary-categories', '1.0.1' );
     
     } else {
         

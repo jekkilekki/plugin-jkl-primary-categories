@@ -63,19 +63,15 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          * Initializes the JKL_Primary_Categories Object and sets its properties
          * @since   0.0.1
          * 
-         * @var     String          $name           The name of this plugin.
-         * @var     String          $version        The version of this plugin.
-         * @var     JKL_PC_Welcome  $welcome_page   A JKL_PC_Welcome object for our Plugin Welcome Page
+         * @param     String          $name           The name of this plugin.
+         * @param     String          $version        The version of this plugin.
          */
         public function __construct( $name, $version ) {
             
             // Set the name and version number
             $this->name     = $name;
             $this->version  = $version;
-            
-            // Create the Plugin Welcome Page
-            $this->welcome_page = new JKL_PC_Welcome();
-            $this->admin_pointer = new JKL_PC_Admin_Pointer();
+            $this->pointers = $this->jkl_pc_add_admin_pointers();
             
             // Load the plugin and supplementary files
             $this->load();
@@ -108,13 +104,20 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             add_filter( 'post_link_category', array( $this, 'jkl_frontend_primary_category' ), 10, 3 );
             add_action( 'admin_init', array( $this, 'jkl_pc_flush_rewrite' ), 10, 3 );
             
+            /* #5) Add Admin Pointer array and Create the Admin Pointer */
+            add_action( 'admin_enqueue_scripts', array( $this, 'jkl_pc_add_admin_pointers' ) );
+            
+            // Create the Plugin Welcome Page and Admin Pointers
+            $this->welcome_page = new JKL_PC_Welcome();
+            $this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );
+            
         } // END load()
         
         /**
          * STEP #1) Enqueues our CSS and JavaScript, and (hopefully) the WP Pointer
          * @since   0.0.1
          * 
-         * @var     $hook   The Page hook where we want (or don't want) our scripts to run
+         * @param   $hook   The Page hook where we want (or don't want) our scripts to run
          */
         public function jkl_pc_scripts( $hook ) {
             
@@ -132,6 +135,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                 // Enqueue our main plugin scripts
                 wp_enqueue_style( 'jkl_pc_style', plugins_url( '../css/style.css', __FILE__ ) );
                 wp_enqueue_script( 'jkl_pc_functions', plugins_url( '../js/functions.js', __FILE__ ), array( 'jquery' ), '20160921', true );
+            
             }
             //$this->pointers = $this->get_admin_pointers();
             //$this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );
@@ -145,7 +149,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          * @since   0.0.1
          * @link    https://joebuckle.me/quickie/wordpress-add-options-to-post-admin-publish-meta-box/
          * 
-         * @var     WP_Post     $post   The current Post
+         * @param   WP_Post     $post   The current Post
          */
         public function jkl_add_publish_options( $post ) {
             
@@ -238,9 +242,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          * @link    https://github.com/Yoast/wordpress-seo/blob/6b298c7c8c08411c7d99cf1108d249e9cf43206d/frontend/class-primary-category.php
          * @link    https://developer.wordpress.org/reference/hooks/post_link_category/
          * 
-         * @var     stdClass    $category       The Category that is now used for the Post link
-         * @var     array       $categories     This parameter is not used
-         * @var     WP_Post     $post           The current Post
+         * @param   stdClass    $category       The Category that is now used for the Post link
+         * @param   array       $categories     This parameter is not used
+         * @param   WP_Post     $post           The current Post
          * 
          * @return  array|null|object|WP_Error  The Category we want to use for the permalink
          */
@@ -279,9 +283,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          * @link    https://github.com/JacobMC/Primary-Categories/blob/master/classes/class-pc-meta-box.php
          * @since   0.0.1
          * 
-         * @var     WP_Post     $post               This Post
-         * @var     String      $primary_cat        The name of the Primary Category
-         * @var     array       $post_categories    An array of Categories associated with this Post
+         * @param   WP_Post     $post               This Post
+         * @param   String      $primary_cat        The name of the Primary Category
+         * @param   array       $post_categories    An array of Categories associated with this Post
          * 
          * @return  int     The ID of the Primary Category
          */
@@ -317,7 +321,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
          * Helper Function = Returns any array of Category names from the array of Post Category objects
          * @since   0.0.1
          * 
-         * @var     Object array    $post_categories    An array of Categories associated with this Post
+         * @param   Object array    $post_categories    An array of Categories associated with this Post
          * 
          * @return  String array                        An array of Category names from the Categories objects array   
          */
@@ -336,6 +340,48 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
         } // END jkl_get_the_category_names()
         
         /**
+         * STEP #5) Creates the Admin Pointers we will use and stores them in our $pointers class variable
+         * @since   1.0.1
+         */
+        public function jkl_pc_add_admin_pointers() {
+            return array(
+                array(
+                    'id'       => 'jklpc1',
+                    'screen'   => '', // post, page, etc
+                    'target'   => '#jkl-pc-help',
+                    'title'    => 'Get Quick Information',
+                    'content'  => 'Easily see what your Primary Category is currently set to. It defaults to the first Category selected for a Post and dynamically updates as you click the "Set Primary" links in the Category meta box.',
+                    'position' => array(
+                        'edge'  => 'bottom', // top, bottom, left, right
+                        'align' => 'top' // top, bottom, left, right, middle
+                    )
+                ),
+                array(
+                    'id'       => 'jklpc2',
+                    'screen'   => '', // post, page, etc
+                    'target'   => '#categorychecklist',
+                    'title'    => 'Change Primary Categories',
+                    'content'  => 'The first Category you select defaults to the Primary Category. But you can easily change that by clicking the "Set Primary" link beside any other Category you select as well. Once you Save the Post, the Primary Category gets saved along with it in custom meta data and your Primary Category information gets reloaded when the Post refreshes.',
+                    'position' => array(
+                        'edge'  => 'bottom', // top, bottom, left, right
+                        'align' => 'top' // top, bottom, left, right, middle
+                    )
+                ),
+                array(
+                    'id'       => 'jklpc3',
+                    'screen'   => '', // post, page, etc
+                    'target'   => '#edit-slug-box',
+                    'title'    => 'Choose your own Permalinks',
+                    'content'  => 'By setting a Primary Category for a Post, you also set the breadcrumb for that Post (if permalinks has /%category%/ enabled). Watch the changes to your breadcrumb take place every time you Save the Post.',
+                    'position' => array(
+                        'edge'  => 'top', // top, bottom, left, right
+                        'align' => 'left' // top, bottom, left, right, middle
+                    )
+                ),
+            );
+        } // END jkl_pc_add_admin_pointers()
+        
+        /**
          * Possible functions to be used later!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
          */
         /**
@@ -346,26 +392,6 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                 flush_rewrite_rules();
                 update_option('plugin_settings_have_changed', false);
             }
-        }
-        
-        /**
-         * Function to get Admin Pointers we may want to use
-         * @return  array   WP Admin Pointers array
-         */
-        public function get_admin_pointers() {
-            return array( 
-                array(
-                    'id'        => 'jklpcpointer1',
-                    'screen'    => 'post',
-                    'target'    => '#jkl-set-primary-category',
-                    'title'     => __( 'Set Primary Category', 'jkl-primary-categories' ),
-                    'content'   => __( 'To set the Primary Category, ...', 'jkl-primary-categories' ),
-                    'position'  => array(
-                        'edge'  => 'top',   // top, bottom, left, right
-                        'align' => 'middle' // top, bottom, left, right, middle
-                    )
-                ),
-            );
         }
         
     } // END class JKL_Primary_Categories
