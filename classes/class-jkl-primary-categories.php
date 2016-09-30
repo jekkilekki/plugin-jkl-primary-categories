@@ -107,6 +107,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             /* #5) Add Admin Pointer array and Create the Admin Pointer */
             add_action( 'admin_enqueue_scripts', array( $this, 'jkl_pc_add_admin_pointers' ) );
             
+            /* Set link color */
+            add_action( 'admin_head', array( $this, 'jkl_set_link_color' ) );
+            
             // Create the Plugin Welcome Page and Admin Pointers
             $this->welcome_page = new JKL_PC_Welcome();
             $this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );
@@ -358,7 +361,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                     'screen'   => '', // post, page, etc
                     'target'   => '#jkl-pc-help',
                     'title'    => 'Get Quick Information',
-                    'content'  => 'Easily see what your Primary Category is currently set to. It defaults to the first Category selected for a Post and dynamically updates as you click the "Set Primary" links in the Category meta box.',
+                    'content'  => 'Easily see what your Primary Category is set to.<br><br>It defaults to the first Category selected for a Post and dynamically updates as you click the "Set Primary" links in the Category meta box.',
                     'position' => array(
                         'edge'  => 'bottom', // top, bottom, left, right
                         'align' => 'top' // top, bottom, left, right, middle
@@ -369,7 +372,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                     'screen'   => '', // post, page, etc
                     'target'   => '#categorychecklist',
                     'title'    => 'Change Primary Categories',
-                    'content'  => 'The first Category you select defaults to the Primary Category. But you can easily change that by clicking the "Set Primary" link beside any other Category you select as well. Once you Save the Post, the Primary Category gets saved along with it in custom meta data and your Primary Category information gets reloaded when the Post refreshes.',
+                    'content'  => 'The first Category you select defaults to the Primary Category. But you can easily change that by clicking the "Set Primary" link beside any other Category you select as well.<br><br>Once you <strong>Save</strong> the Post, the Primary Category gets saved along with it in custom meta data and your Primary Category information gets reloaded when the Post refreshes.',
                     'position' => array(
                         'edge'  => 'bottom', // top, bottom, left, right
                         'align' => 'top' // top, bottom, left, right, middle
@@ -380,7 +383,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                     'screen'   => '', // post, page, etc
                     'target'   => '#edit-slug-box',
                     'title'    => 'Choose your own Permalinks',
-                    'content'  => 'By setting a Primary Category for a Post, you also set the breadcrumb for that Post (if permalinks has /%category%/ enabled). Watch the changes to your breadcrumb take place every time you Save the Post.',
+                    'content'  => 'By setting a Primary Category for a Post, you also set the breadcrumb for that Post (if permalinks has <code>/%category%/</code> enabled). Watch the changes to your breadcrumb take place every time you <strong>Save</strong> the Post.',
                     'position' => array(
                         'edge'  => 'top', // top, bottom, left, right
                         'align' => 'left' // top, bottom, left, right, middle
@@ -388,6 +391,19 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                 ),
             );
         } // END jkl_pc_add_admin_pointers()
+        
+        /**
+         * @since   1.0.2
+         * @see     https://codex.wordpress.org/Plugin_API/Action_Reference/admin_head
+         * @link    https://kolakube.com/admin-color-scheme/
+         */
+        public function jkl_set_link_color() {
+            global $_wp_admin_css_colors;
+            $admin_color = get_user_option( 'admin_color' );
+            $colors = $_wp_admin_css_colors[ $admin_color ]->colors; // returns 'flat' -> that's my color scheme
+            
+            echo '<style>.jkl-make-primary-cat { color: ' . $colors[1] . '!important; }</style>';
+        }
         
         /**
          * Possible functions to be used later!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!

@@ -80,7 +80,13 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
                     'content'  => sprintf(
                         '<h3>%s</h3><p>%s</p>', 
                         __( $ptr[ 'title' ], 'jkl-primary-categories' ), 
-                        __( $ptr[ 'content' ], 'jkl-primary-categories' )
+                        wp_kses( __( $ptr[ 'content' ], 'jkl-primary-categories' ),
+                                array(
+                                    'strong'    => array(),
+                                    'code'      => array(),
+                                    'br'        => array()
+                                )
+                        )
                     ),
                     'position' => $ptr[ 'position' ]
                 );

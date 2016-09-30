@@ -6,7 +6,7 @@
     padding-right: 5px;
 }
 #jkl-primary-cat {
-    font-weight: bold;
+    font-weight: 600;
     color: #444;
 }
 /* jQuery will decide which buttons to show at what time */
@@ -49,22 +49,18 @@
     float: right;
 }
 .jkl-primary-category-button {
-    padding: 0;
+    padding-right: 0;
     background: transparent;
     border-color: transparent;
-    font-weight: bold;
-    content: "Primary";
+    font-weight: 600;
+    color: #444;
 }
 .jkl-make-primary-cat {
-    padding: 0;
+    padding-right: 0;
     background: transparent;
     border-color: transparent;
     text-decoration: underline;
     color: blue;
-    content: "Set Primary";
-}
-.jkl-primary-category-button:disabled {
-    color: #444;
 }
 .jkl-primary-category-button:focus,
 .jkl-primary-category-button:active,
