@@ -5,7 +5,7 @@ Plugin URI:             https://github.com/jekkilekki/plugin-jkl-primary-categor
 Author:                 Aaron Snowberger
 Author URI:             http://www.aaronsnowberger.com/
 Donate link:            https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=567MWDR76KHLU
-Tags:                   categories, primary, permalinks, jquery, breadcrumbs
+Tags:                   categories, primary, permalinks, jquery, breadcrumbs, meta, post meta
 Requires at least:      3.5
 Tested up to:           4.6
 Stable tag:             1.0.2

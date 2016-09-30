@@ -30,6 +30,12 @@
                 . 'Primary Category for Posts." It was a lot of fun (as demonstrated by '
                 . 'my Optimus Prime artwork).', 'jkl-primary-categories' ); ?>
         </p>
+        <h4><?php esc_html_e( 'Version 1.0.2 Updates:', 'jkl-primary-categories' ); ?></h4>
+        <ul>
+            <li><?php esc_html_e( 'Code restructuring, cleanup, and commenting', 'jkl-primary-categories' ); ?></li>
+            <li><?php esc_html_e( 'Decouple Admin Pointer JavaScript from the PHP class', 'jkl-primary-categories' ); ?></li>
+            <li><?php esc_html_e( 'Localize JavaScript for translations', 'jkl-primary-categories' ); ?></li>
+        </ul>
     </div>
     
     <div class="feature-section">
@@ -63,14 +69,29 @@
             <div class="col">
                 <h3><?php esc_html_e( 'Time Tracking (approximate)', 'jkl-primary-categories' ); ?></h3>
                 <ul>
-                    <li><?php printf( wp_kses( __( 'Initial research - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>1.5 hours</strong>' ); ?></li>
-                    <li><?php printf( wp_kses( __( 'Coding the functionality - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>11 hours</strong>' ); ?></li>
-                    <li><?php printf( wp_kses( __( 'Adding a Welcome Page - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>3 hours</strong>' ); ?></li>
-                    <li><?php printf( wp_kses( __( 'Adding Admin Pointers - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>2 hours</strong>' ); ?></li>
-                    <li><?php printf( wp_kses( __( 'Code cleanup and comments - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>1.5 hours</strong>' ); ?></li>
-                    <li><?php printf( wp_kses( __( 'Readme documentation - %s', 'jkl-primary-categories' ), array( '' ) ), '<strong>2 hours</strong>' ); ?></li>
+                    <li><?php printf( wp_kses( __( 'Initial research - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '1.5 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Coding the functionality - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '11 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Adding a Welcome Page - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '3 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Adding Admin Pointers - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '2 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Code cleanup and comments - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '1.5 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Readme documentation - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array() ) ), '2 hours' ); ?>
+                    </li>
+                    <li><?php printf( wp_kses( __( 'Upgrade to <code>Version 1.0.2</code> - <strong>%s</strong>', 'jkl-primary-categories' ), 
+                            array( 'strong' => array(), 'code' => array() ) ), '2 hours' ); ?>
+                    </li>
                 </ul>
-                <h4><?php esc_html_e( 'Total: around 20+ hours', 'jkl-primary-categories' ); ?></h4>
+                <h4><?php esc_html_e( 'Total: around 24 hours', 'jkl-primary-categories' ); ?></h4>
             </div>
         </div>
     </div>
@@ -110,16 +131,16 @@
                         . 'them - and a new default Primary Category is assigned.', 'jkl-primary-categories' ); ?>
             </p>
             <p>
-                <?php printf( wp_kses( __( 'When the Post is saved, a %s input '
-                        . 'field records the value and stores it in a custom %s.', 'jkl-primary-categories' ),
-                        array( '' ) ), '<code>hidden</code>', '<code>post meta key</code>' ); ?>
+                <?php printf( wp_kses( __( 'When the Post is saved, a <code>%s</code> input '
+                        . 'field records the value and stores it in a custom <code>%s</code>.', 'jkl-primary-categories' ),
+                        array( 'code' => array() ) ), 'hidden', 'post meta key' ); ?>
             </p>
             <p>
                 <?php printf( wp_kses( __( 'There is also a function to retrieve the '
                         . 'Category ID of the Primary Category. This is important to '
-                        . 'allow modification of the permalinks if %s is present in the '
+                        . 'allow modification of the permalinks if <code>%s</code> is present in the '
                         . 'permalink structure.', 'jkl-primary-categories' ),
-                        array( '' ) ), '<code>/%category%/</code>' ); ?>
+                        array( 'code' => array() ) ), '/%category%/' ); ?>
             </p>
         </div>
         <div class="col">
@@ -155,10 +176,10 @@
         </p>
         <p>
             <?php printf( wp_kses( __( 'So, JKL Primary Categories first performs a check to '
-                    . 'see if the %s class from Yoast SEO already exists. If so, it pops up '
+                    . 'see if the <code>%s</code> class from Yoast SEO already exists. If so, it pops up '
                     . 'an admin error message. Then, after disabling Yoast, the '
                     . 'JKL Primary Categories Welcome Page is displayed.', 'jkl-primary-categories' ),
-                    array( '' ) ), '<code>WPSEO_Primary_Term</code>' ); ?>
+                    array( 'code' => array() ) ), 'WPSEO_Primary_Term' ); ?>
         </p>
         <img src="<?php echo esc_url( plugins_url( 'jkl-primary-categories/images/yoast-conflict.png' ) ); ?>">
     </div>
@@ -183,9 +204,9 @@
                     . 'I just didn\'t know how initially (I thought I might have to use a '
                     . 'filter hook to add content there).', 'jkl-primary-categories' ); ?>
             </p>
-            <p><?php printf( wp_kses( __( 'But then I found out the %s action hook was what I '
+            <p><?php printf( wp_kses( __( 'But then I found out the <code>%s</code> action hook was what I '
                     . 'needed to use.', 'jkl-primary-categories' ),
-                    array( '' ) ), '<code>post_submitbox_misc_actions</code>' ); ?></p>
+                    array( 'code' => array() ) ), 'post_submitbox_misc_actions' ); ?></p>
         </div>
         <div class="col">
             <h4><?php esc_html_e( 'Plugin Welcome Page', 'jkl-primary-categories' ); ?></h4>
@@ -195,9 +216,9 @@
             <p><?php printf( wp_kses( __( 'By creating this plugin\'s Welcome Page (specifically for '
                     . 'the 10up team), I learned about transients (and that I must set them '
                     . 'in the base plugin file), activation hooks, and also that I should '
-                    . 'use the %s action hook to check for other plugins that ' 
+                    . 'use the <code>%s</code> action hook to check for other plugins that ' 
                     . 'might cause conflicts (like Yoast).', 'jkl-primary-categories' ),
-                    array( '' ) ), '<code>plugins_loaded</code>' ); ?></p>
+                    array( 'code' => array() ) ), 'plugins_loaded' ); ?></p>
             </p>
         </div>
         <div class="col">
@@ -212,24 +233,42 @@
             </p>        
         </div>
     </div>
-    <div class="feature-section more-to-learn two-col">
+    <div class="feature-section three-col">
+        <div class="col">
+            <h4><?php esc_html_e( 'wp_localize_script()', 'jkl-primary-categories' ); ?></h4>
+            <p><?php printf( wp_kses( __( 'It took a little extra time (2 more hours), but I finally figured out '
+                    . 'how to use <code>%s</code> to decouple the JavaScript controlling the WP Admin Pointers '
+                    . 'from its PHP class. I was also able to use <code>%s</code> to make my JavaScript strings translatable '
+                    . 'in all my JavaScript files.', 'jkl-primary-categories' ),
+                    array( 'code' => array() ) ), 'wp_localize_script()', 'wp_localize_script()' ); ?>
+            </p>
+        </div>
+        <div class="col">
+            <h4><?php esc_html_e( 'JSON encoding and parsing', 'jkl-primary-categories' ); ?></h4>
+            <p><?php printf( wp_kses( __( 'It took a few tries, but eventually I discovered that by encoding my <code>%s</code> array into'
+                    . 'JSON using <code>%s</code>, I was able to pass it to the JavaScript as a string. Then, I used '
+                    . '<code>%s</code> to re-parse the string into a JSON Object. From there, I created a JavaScript array '
+                    . 'to control the pointers and make the Tour feature run properly.', 'jkl-primary-categories' ),
+                    array( 'code' => array() ) ), '$pointers', 'json_ecode()', 'JSON.parse()' ); ?>
+            </p>
+        </div>
+        <div class="col">
+            <h4><?php esc_html_e( 'Multiple calls to wp_localize_script()', 'jkl-primary-categories' ); ?></h4>
+            <p><?php printf( wp_kses( __( 'I also passed a second string array into the Admin Pointer JavaScript file '
+                    . 'with another call to <code>%s</code> in order to make my strings in that JavaScript file '
+                    . 'translatable as well.', 'jkl-primary-categories' ),
+                    array( 'code' => array() ) ), 'wp_localize_script()' ); ?>
+            </p>
+        </div>
+    </div>
+    <div class="feature-section more-to-learn">
         <h2><?php esc_html_e( 'More to Learn', 'jkl-primary-categories' ); ?></h2>
-        <div class="col">
-            <h3><?php esc_html_e( 'wp_localize_script()', 'jkl-primary-categories' ); ?></h3>
-            <p><?php printf( wp_kses( __( 'I\'d still like to really learn how to use %s '
-                    . 'in order to decouple my Admin Pointer JavaScript from its PHP class, and also '
-                    . 'so that I can make my JavaScript strings translatable.', 'jkl-primary-categories' ),
-                    array( '' ) ), '<code>wp_localize_script()</code>' ); ?>
-            </p>
-        </div>
-        <div class="col">
-            <h3><?php esc_html_e( 'Better i18n', 'jkl-primary-categories' ); ?></h3>
-            <p><?php printf( wp_kses( __( 'I also need to learn some more about the proper way to '
-                    . 'make Strings with HTML elements translatable. I know the basics of '
-                    . '%s and %s, but need some more time to work with them.', 'jkl-primary-categories' ),
-                    array( '' ) ), '<code>printf()</code>', '<code>sprintf()</code>' ); ?>
-            </p>
-        </div>
+        <h4><?php esc_html_e( 'Better i18n', 'jkl-primary-categories' ); ?></h4>
+        <p><?php printf( wp_kses( __( 'I also need to learn some more about the proper way to '
+                . 'make Strings with HTML elements translatable. I know the basics of '
+                . '<code>%s</code> and <code>%s</code>, but need some more time to work with them.', 'jkl-primary-categories' ),
+                array( 'code' => array() ) ), 'printf()', 'sprintf()</code>' ); ?>
+        </p>
     </div>
     <hr>
     

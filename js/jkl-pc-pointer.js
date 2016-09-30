@@ -93,7 +93,7 @@ jQuery( document ).ready( function( $ ) {
             if( nextPointer !== undefined ) {
                 // Remove the "Dismiss" button and add a "Next" button in its place
                 $( '.wp-pointer-buttons' ).find( 'a.close' ).remove();
-                $( '.wp-pointer-buttons' ).append('<a class="button-primary" id="jkl-pc-help-next">Next</a>'); // and if so attach a "next" link to the current pointer
+                $( '.wp-pointer-buttons' ).append('<a class="button-primary" id="jkl-pc-help-next">' + localize.nextButton + '</a>'); // and if so attach a "next" link to the current pointer
             } else {
                 // Or, if it's the last pointer, change the "Dismiss" link's style to look like a button
                 $( '.wp-pointer-buttons' ).find( 'a.close' ).addClass( 'button-primary' );  

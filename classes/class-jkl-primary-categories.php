@@ -135,7 +135,15 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                 // Enqueue our main plugin scripts
                 wp_enqueue_style( 'jkl_pc_style', plugins_url( '../css/style.css', __FILE__ ) );
                 wp_enqueue_script( 'jkl_pc_functions', plugins_url( '../js/functions.js', __FILE__ ), array( 'jquery' ), '20160921', true );
-            
+                
+                // Create an array with text for our Primary Category buttons to pass into our JavaScript (allows for translation)
+                $localize = array(
+                    'primaryLabel'      => __( 'Primary', 'jkl-primary-categories' ),
+                    'setPrimaryLabel'   => __( 'Set Primary', 'jkl-primary-categories' )
+                );
+                // Localize our functions.js script (enqueued above) and pass in out array of strings to use
+                wp_localize_script( 'jkl_pc_functions', 'jklPc', $localize );
+                
             }
             //$this->pointers = $this->get_admin_pointers();
             //$this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );

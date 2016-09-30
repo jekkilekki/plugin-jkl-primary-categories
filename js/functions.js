@@ -13,12 +13,11 @@
  *              Helpful to understand the necessary functionality for handling the Primary Category JS in the Categories meta box
  */
 
-/**
- * @TODO: Internationalization of this JavaScript
- */
-
 ( function ( $ ) {
    "use strict";
+   
+   // Grab our array of string data from PHP
+   var text = jklPc;
    
    // PRIMARY CATEGORY FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
    /**
@@ -127,7 +126,7 @@
         
         // Add a disabled button (like a label) called "Primary" to the nearest <label>
         var label = term.closest( "label" );
-        label.append( "<button class='jkl-category-label jkl-primary-category-button' disabled>Primary</button>" );
+        label.append( "<button class='jkl-category-label jkl-primary-category-button' disabled>" + text.primaryLabel + "</button>" );
         
         /* Change Primary Category name in Publish metabox */
         $( "#jkl-primary-cat" ).html( getCategoryName( term, true ) );
@@ -201,7 +200,7 @@
                 
                 // Then, add a "Set Primary" button to the <label> for this Category
                 var label = term.closest( "label" );
-                label.append( "<button class='jkl-category-label jkl-make-primary-cat'>Set Primary</button>" );
+                label.append( "<button class='jkl-category-label jkl-make-primary-cat'>" + text.setPrimaryLabel + "</button>" );
                 
             }
             
@@ -272,7 +271,7 @@
         jklCategories
                 .removeClass( 'jkl-primary-category-button' )
                 .addClass( 'jkl-make-primary-cat' )
-                .html( "Set Primary" )
+                .html( text.setPrimaryLabel )
                 .prop( 'disabled', false );
         jklCategories.closest( 'li' )
                 .removeClass( 'jkl-primary-category' )
@@ -283,7 +282,7 @@
         $( this )
                 .removeClass( "jkl-make-primary-cat" )
                 .addClass( "jkl-primary-category-button" )
-                .html( "Primary" )
+                .html( text.primaryLabel )
                 .prop( 'disabled', true );
         $( this ).closest( 'li' )
                 .removeClass( 'jkl-category-checked' )

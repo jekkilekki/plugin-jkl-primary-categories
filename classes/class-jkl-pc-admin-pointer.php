@@ -61,8 +61,6 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
             
             // Add "valid" pointers - we'll make all of them valid all the time for now - since it's a tour feature
             add_action( 'admin_enqueue_scripts', array( $this, 'add_pointers' ), 1000 );
-            // Add the pointer scripts
-            // add_action( 'admin_print_footer_scripts', array( $this, 'add_pointer_scripts' ) );
             
         } // END run()
         
@@ -152,6 +150,9 @@ if ( ! class_exists( 'JKL_PC_Admin_Pointer' ) ) {
             // Add our custom Admin Pointers script and localize our Pointer data to use in the script
             wp_enqueue_script( 'jkl-pc-pointer-script', plugins_url( '../js/jkl-pc-pointer.js', __FILE__ ), array( 'wp-pointer' ), '20160922', true );
             wp_localize_script( 'jkl-pc-pointer-script', 'jklPcPointer', json_encode( $this->pointers ) );
+            
+            // Also send the text for our Next button to the JavaScript (allows for translation)
+            wp_localize_script( 'jkl-pc-pointer-script', 'localize', array( 'nextButton' => __( 'Next', 'jkl-primary-categories' ) ) );
             
         } // END add_pointers()
 

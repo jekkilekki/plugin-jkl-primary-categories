@@ -94,3 +94,8 @@
     height: 50px;
     padding-top: 120px;
 }
+.about-wrap .feature-section > h4 {
+    max-width: 35.5em;
+    margin-left: auto;
+    margin-right: auto;
+}
