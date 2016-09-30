@@ -400,9 +400,9 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
         public function jkl_set_link_color() {
             global $_wp_admin_css_colors;
             $admin_color = get_user_option( 'admin_color' );
-            $colors = $_wp_admin_css_colors[ $admin_color ]->colors; // returns 'flat' -> that's my color scheme
+            // $colors = $_wp_admin_css_colors[ $admin_color ]->colors; // returns 'flat' -> that's my color scheme
             
-            echo '<style>.jkl-make-primary-cat { color: ' . $colors[1] . '!important; }</style>';
+            // echo '<style>.jkl-make-primary-cat { color: ' . $colors[1] . '!important; }</style>';
         }
         
         /**
