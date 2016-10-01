@@ -31,11 +31,11 @@
                 . 'my Optimus Prime artwork).', 'jkl-primary-categories' ); ?>
         </p>
         <h4><?php esc_html_e( 'Version 1.0.2 Updates:', 'jkl-primary-categories' ); ?></h4>
-        <ul>
+        <ol>
             <li><?php esc_html_e( 'Code restructuring, cleanup, and commenting', 'jkl-primary-categories' ); ?></li>
-            <li><?php esc_html_e( 'Decouple Admin Pointer JavaScript from the PHP class', 'jkl-primary-categories' ); ?></li>
-            <li><?php esc_html_e( 'Localize JavaScript for translations', 'jkl-primary-categories' ); ?></li>
-        </ul>
+            <li><?php esc_html_e( 'Decouples Admin Pointer JavaScript from the PHP class', 'jkl-primary-categories' ); ?></li>
+            <li><?php esc_html_e( 'Localizes JavaScript for translations', 'jkl-primary-categories' ); ?></li>
+        </ol>
     </div>
     
     <div class="feature-section">
@@ -261,14 +261,27 @@
             </p>
         </div>
     </div>
-    <div class="feature-section more-to-learn">
+    <div class="feature-section more-to-learn two-col">
         <h2><?php esc_html_e( 'More to Learn', 'jkl-primary-categories' ); ?></h2>
-        <h4><?php esc_html_e( 'Better i18n', 'jkl-primary-categories' ); ?></h4>
-        <p><?php printf( wp_kses( __( 'I also need to learn some more about the proper way to '
-                . 'make Strings with HTML elements translatable. I know the basics of '
-                . '<code>%s</code> and <code>%s</code>, but need some more time to work with them.', 'jkl-primary-categories' ),
-                array( 'code' => array() ) ), 'printf()', 'sprintf()</code>' ); ?>
-        </p>
+        <div class="col">
+            <h4><?php esc_html_e( 'Better i18n', 'jkl-primary-categories' ); ?></h4>
+            <p><?php printf( wp_kses( __( 'I also need to learn some more about the proper way to '
+                    . 'make Strings with HTML elements translatable. I know the basics of '
+                    . '<code>%s</code> and <code>%s</code>, but need some more time to work with them.', 'jkl-primary-categories' ),
+                    array( 'code' => array() ) ), 'printf()', 'sprintf()</code>' ); ?>
+            </p>
+        </div>
+        <div class="col">
+            <h4><?php esc_html_e( 'Highlight Primary Category in Edit.php', 'jkl-primary-categories' ); ?></h4>
+            <p><?php wp_kses( _e( 'I\ve also pondered how I might be able to <strong>bold</strong> '
+                    . 'the Primary Category for each Post in the <code>edit.php</code> screen. But I '
+                    . 'figured it would be a bit more complicated to do so for EVERY Post on that screen. '
+                    . 'Still, it might be as easy as adding another filter hook for that screen, as it\'s '
+                    . 'querying all the Posts and checking for the custom post meta for each. It\'s something '
+                    . 'I\'d still like to look into.', 'jkl-primary-categories' ),
+                    array( 'code' => array(), 'strong' => array() ) ); ?>
+            </p>
+        </div>
     </div>
     <hr>
     

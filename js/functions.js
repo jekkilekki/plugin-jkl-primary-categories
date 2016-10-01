@@ -1,7 +1,7 @@
 /**
  * @package     JKL_Primary_Categories
  * @author      Aaron Snowberger <jekkilekki@gmail.com>
- * @since       1.0.2
+ * @since       0.0.1
  * 
  * Main jQuery function that controls all the functionality of the plugin.
  * 
@@ -19,29 +19,44 @@
    // Grab our array of string data from PHP
    var text = jklPc;
    
-   // PRIMARY CATEGORY FUNCTIONS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   /**
+    * ==========================================================================
+    * PRIMARY CATEGORY FUNCTIONS
+    * ==========================================================================
+    */
+   
    /**
     * Highlights the Primary Category whenever some action happens regarding it
+    * 
+    * @since    0.0.1
     * 
     * @param    Object  term     The Primary Category <li> element
     */
    function highlightPrimary( term ) {
+       
         $( term )
                 .animate( { backgroundColor: "#ffffaa" }, 1 )
                 .animate( { backgroundColor: "#ffffff" }, 2000 );
-   }
+        
+   } // END highlightPrimary()
    
    /**
     * Gets the Primary Category name from our Publish Metabox (which is set using the get_post_meta() function in PHP)
     * 
+    * @since    0.0.1
+    * 
     * @return   String      The current Primary Category name
     */
    function getPrimaryCategory() {
+       
        return $( "#jkl-primary-cat" ).html();
-   }
+       
+   } // END getPrimaryCategory()
    
    /**
     * Function to be sure we always have a Primary Category labeled in the Publish Meta box if there is at least one Category checked
+    * 
+    * @since    0.0.1
     * 
     * @param    Object  term     The Primary Category <li> element
     */
@@ -62,10 +77,12 @@
             $( "#jkl-primary-cat" ).html( "" );
         }
         
-   }
+   } // END ensurePrimaryCategory()
    
    /**
     * Gets the Category name from an <input> element
+    * 
+    * @since    0.0.1
     * 
     * @param    Object  term            The current Primary Category
     * @param    bool    newPrimaryCat   True if we are setting a , false otherwise 
@@ -93,26 +110,36 @@
             // Return the last String in the HTML array (which is the Category name)
             return htmlArr[ htmlArr.length - 1 ];
         }
-   }
+        
+   } // END getCategoryName()
    
    /**
+    * Make FIRST checked Category Primary
+    * 
     * Makes the first Category the Primary Category (by default, or if unchecking the Primary Category)
+    * 
+    * @since    0.0.1
     */
    function setPrimaryCategoryFirst() {
        
        // Find the very first checkbox that is selected
        var firstCategory = $( "#categorychecklist input[type='checkbox']:checked:first" );
+       
        // Remove the Primary Category class from the nearest <li> (just in case)
        firstCategory.closest( 'li' ).removeClass( 'jkl-primary-category' );
+       
        // Remove any interface elements from the first selected checkbox
        firstCategory.next().remove();
+       
        // Call the function to set THIS as the Primary Category
        setPrimaryCategory( firstCategory );
 
-   }
+   } // END setPrimaryCategoryFirst()
    
    /**
     * Sets a new Primary Category
+    * 
+    * @since    0.0.1
     * 
     * @param    Object  term    The current Primary Category
     */
@@ -132,11 +159,15 @@
         $( "#jkl-primary-cat" ).html( getCategoryName( term, true ) );
         $( "#jkl-primary-cat-hidden" ).val( getCategoryName( term, true ) );
         
-   }
+   } // END setPrimaryCategory()
    
    /**
+    * Primary Category updater
+    * 
     * The MAIN function that handles all the updating of Primary Categories
     * Sees which Categories are checked and adds a 'jkl-category-checked/unchecked' class to each
+    * 
+    * @since    0.0.1
     */
    function updateCategories() {
        
@@ -200,7 +231,9 @@
                 
                 // Then, add a "Set Primary" button to the <label> for this Category
                 var label = term.closest( "label" );
-                label.append( "<button class='jkl-category-label jkl-make-primary-cat'>" + text.setPrimaryLabel + "</button>" );
+                // Also, embed an <a> tag so the button text gets the same link color as the rest of the admin 
+                // (then we don't need a separate PHP function to pull admin colors and set the link color just for this element)
+                label.append( "<button class='jkl-category-label jkl-make-primary-cat'><a>" + text.setPrimaryLabel + "</a></button>" );
                 
             }
             
@@ -215,14 +248,24 @@
           setPrimaryCategoryFirst();
        }
        
-   }
+   } // END updateCategories()
    
-   // EVENT LISTENERS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+   
    /**
-    * Checkbox handler for when a checkbox is clicked
+    * ==========================================================================
+    * EVENT LISTENERS
+    * ==========================================================================
     */
-   // Bind this function call to the document so that even when we create or destroy
-    // our interface elements, each button will still work appropriately
+   
+   /**
+    * Checkbox handler
+    * 
+    * Checkbox handler for when a checkbox is clicked
+    * Bind this function call to the document so that even when we create or destroy
+    * our interface elements, each button will still work appropriately
+    * 
+    * @since    0.0.1
+    */
     $( document ).on( "change", "#categorychecklist input:checkbox", function( e ) {
         // Call the function to be sure there is always a Primary Category if a Category is selected
         ensurePrimaryCategory( e.target );
@@ -231,8 +274,12 @@
     } );
     
     /**
+     * Highlight on "Set"
+     * 
      * Highlight the first Category <li> if the user clicks to "Set"
      * Also scroll the page down to focus on the Category meta box
+     * 
+     * @since   0.0.1
      */
     $( "#jkl-set-primary-category" ).click( function() {
         highlightPrimary( "#categorychecklist li:first-child" );
@@ -243,8 +290,12 @@
     } );
     
     /**
+     * Highlight on "Edit"
+     * 
      * Highlight the current Primary Category <li> if the user clicks to "Edit" Category
      * Also scroll the page down to focus on the Category meta box
+     * 
+     * @since   0.0.1
      */
     $( "#jkl-edit-primary-category" ).click( function() {
         highlightPrimary( ".jkl-primary-category" );
@@ -255,10 +306,14 @@
     } );
     
     /**
+     * "Set Primary" button handler
+     * 
      * Change "Primary" label when one of the "Set Primary" buttons is clicked
+     * Bind this function call to the document so that even when we create or destroy
+     * our interface elements, each button will still work appropriately
+     * 
+     * @since   0.0.1
      */
-    // Bind this function call to the document so that even when we create or destroy
-    // our interface elements, each button will still work appropriately
     $( document ).on( "click", ".jkl-category-label", function( e ) {
         
         e.preventDefault();
@@ -299,7 +354,13 @@
         
     } );
     
-    // RUN PROGRAM!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    
+   /**
+    * ==========================================================================
+    * RUN PROGRAM
+    * ==========================================================================
+    */
+   
     // On the first run of the program, set the pageLoad bool to true
     var pageLoad = true;
     // Add our interface elements
@@ -307,5 +368,6 @@
     // Set pageLoad to false so that all other interaction with the buttons will 
     // allow us to call the setPrimaryCategoryFirst() function
     pageLoad = false;
+    
    
 } ( jQuery ) );

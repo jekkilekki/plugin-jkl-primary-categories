@@ -35,7 +35,13 @@ jQuery( document ).ready( function( $ ) {
     // Counts the number (id) of the current pointer (for our tour)
     var count = 0;
 
-    // Whenever the user clicks our "Help" button or icon
+    /**
+     * Event Listener for "Help"
+     * 
+     * Starts the plugin tour whenever the user clicks our "Help" button or icon
+     * 
+     * @since   1.0.2
+     */
     $( "#jkl-pc-help" ).click( function( e ) {
         e.preventDefault();
         // Don't run if there are already visible pointers
@@ -45,13 +51,32 @@ jQuery( document ).ready( function( $ ) {
         }
     } );
 
-    // Whenever a user clicks the "Next" button on a pointer
+    /**
+     * Event Listener for "Next" buttons
+     * 
+     * Opens the Next Pointer whenever a user clicks the "Next" button on a pointer
+     * Bound to the Document since our "Next" buttons are added dynamically by this script
+     * 
+     * @since   1.0.2
+     */
     $( document ).on( 'click', "#jkl-pc-help-next", function( e ) {
         e.preventDefault();
         // Open the next pointer
         wp_help_pointer_open(count);
     } );
 
+    /**
+     * Opens current Admin Pointer
+     * 
+     * 1) Opens the current Admin Pointer
+     * 2) Closes the previous Admin Pointer (if applicable)
+     * 3) Adds a "Next" button in place of the "Dismiss" button if there is a following Admin Pointer
+     * 4) Resets slide id number (count) to 0 at the end of the tour
+     * 
+     * @since   1.0.2
+     * 
+     * @param   int i   count   The id number of our current slide
+     */
     function wp_help_pointer_open(i) {
 
             // Set variables for ease of use later

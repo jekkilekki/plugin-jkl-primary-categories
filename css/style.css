@@ -1,5 +1,7 @@
 /** 
- * Publish Meta box 
+ * =============================================================================
+ * PUBLISH Meta box 
+ * =============================================================================
  */
 #jkl-pc-notice .dashicons {
     color: #82878c; 
@@ -43,13 +45,21 @@
 }
 
 /** 
- *Category Div 
+ * =============================================================================
+ * CATEGORIES Meta box
+ * =============================================================================
  */
+.jkl-category-checked,
+.jkl-primary-category {
+    position: relative;
+}
 .jkl-category-label {
-    float: right;
+    position: absolute;
+    right: 0;
 }
 .jkl-primary-category-button {
     padding-right: 0;
+    padding-left: 0;
     background: transparent;
     border-color: transparent;
     font-weight: 600;
@@ -57,10 +67,11 @@
 }
 .jkl-make-primary-cat {
     padding-right: 0;
+    padding-left: 0;
     background: transparent;
     border-color: transparent;
     text-decoration: underline;
-    color: blue;
+    /*color: blue;*/
 }
 .jkl-primary-category-button:focus,
 .jkl-primary-category-button:active,
@@ -70,11 +81,10 @@
 }
 
 /**
+ * =============================================================================
  * Admin Pointers
+ * =============================================================================
  */
-.wp-pointer {
-    /*margin-top: -10px;*/
-}
 .wp-pointer-buttons a.close {
     padding-left: 10px;
 }
@@ -82,8 +92,10 @@
     display: none !important;
 }
 
-/*
- * WELCOMING PAGE
+/**
+ * =============================================================================
+ * WELCOME Page
+ * =============================================================================
  */
 .tenup-style {
     background: url( '../images/10up-logo.png' ) center 20px no-repeat #000 !important;
