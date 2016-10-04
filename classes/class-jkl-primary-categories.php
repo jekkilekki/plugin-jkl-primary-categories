@@ -133,7 +133,7 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             if( $hook != 'edit.php' && $hook != 'post.php' && $hook != 'post-new.php' ) { return; }
             
             // Avoid Pages
-            if ( $post->post_type != 'page' ) { 
+            if ( ! isset( $post->post_type ) || $post->post_type != 'page' ) { 
             
                 // Enqueue our main plugin scripts
                 wp_enqueue_style( 'jkl_pc_style', plugins_url( '../css/style.css', __FILE__ ) );
