@@ -143,5 +143,5 @@ Floor, Boston, MA 02110-1301 USA
 ###1.0.1 (Sept 29, 2016)
 * Code restructuring, cleanup, and commenting
 
-###1.0.1 (Sept 28, 2016)
+###1.0.0 (Sept 28, 2016)
 * Initial release
