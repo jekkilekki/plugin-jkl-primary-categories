@@ -107,9 +107,6 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
             /* #5) Add Admin Pointer array and Create the Admin Pointer */
             add_action( 'admin_enqueue_scripts', array( $this, 'jkl_pc_add_admin_pointers' ) );
             
-            /* Set link color */
-            add_action( 'admin_head', array( $this, 'jkl_set_link_color' ) );
-            
             // Create the Plugin Welcome Page and Admin Pointers
             $this->welcome_page = new JKL_PC_Welcome();
             $this->admin_pointer = new JKL_PC_Admin_Pointer( $this->pointers );
@@ -391,19 +388,6 @@ if ( ! class_exists( 'JKL_Primary_Categories' ) && ! class_exists( 'WPSEO_Primar
                 ),
             );
         } // END jkl_pc_add_admin_pointers()
-        
-        /**
-         * @since   1.0.2
-         * @see     https://codex.wordpress.org/Plugin_API/Action_Reference/admin_head
-         * @link    https://kolakube.com/admin-color-scheme/
-         */
-        public function jkl_set_link_color() {
-            global $_wp_admin_css_colors;
-            $admin_color = get_user_option( 'admin_color' );
-            // $colors = $_wp_admin_css_colors[ $admin_color ]->colors; // returns 'flat' -> that's my color scheme
-            
-            // echo '<style>.jkl-make-primary-cat { color: ' . $colors[1] . '!important; }</style>';
-        }
         
         /**
          * Possible functions to be used later!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
