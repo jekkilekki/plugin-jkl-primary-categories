@@ -88,10 +88,14 @@ introduces the plugin, its features, and other notes in a more user friendly, gr
 * To take full advantage of the power of this plugin over the permalinks and site 
 breadcrumbs, be sure to add `/%category%/` to your Permalinks structure in Settings.
 
-###Planned Upcoming Features 
-* An Admin Pointer to introduce the plugin usage when a user clicks "Help" in the 
-Publish meta box on a Post page
+###Development Roadmap (Upcoming Features) 
+* Custom Page Template where you can specify a Category (or two) to list all Recent Posts in that Category
+* Ability to add Featured images to Categories
+* Enable Sticky Posts for Category Archives
+* _Possibly_ enable Categories for Pages (perhaps in the Options page)
 * _Possibly_ support for Custom Taxonomies
+
+[Helpful link](http://www.wpbeginner.com/wp-tutorials/10-most-wanted-category-hacks-and-plugins-for-wordpress/)
 
 ###Translations 
 * English (EN) - default
